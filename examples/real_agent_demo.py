@@ -11,7 +11,10 @@ from deepresearch.llm import (
 from deepresearch.tools import (
     CalculatorTool,
     ToolRegistry,
+    WebSearchTool,
 )
+
+import json
 
 
 def main() -> None:
@@ -42,6 +45,22 @@ def main() -> None:
         CalculatorTool()
     )
 
+    if not settings.tavily_api_key:
+        raise RuntimeError(
+            "TAVILY_API_KEY is not configured."
+        )
+
+    registry.register(
+        WebSearchTool(
+            api_key=settings.tavily_api_key,
+        )
+    )
+
+    print(
+        "Registered tools:",
+        registry.names(),
+    )
+
     # ----------------------------------
     # Agent
     # ----------------------------------
@@ -60,8 +79,15 @@ def main() -> None:
     #     "请准确计算 28374 乘以 928，"
     #     "并告诉我结果。"
     # )
+
+    # task = (
+    #     "你好，请用一句话介绍你自己。"
+    # )
+
     task = (
-        "你好，请用一句话介绍你自己。"
+        "请搜索网页获取最新资料，"
+        "告诉我 LangGraph 主要是用来做什么的，"
+        "并简要总结。"
     )
 
     print("=" * 70)
@@ -69,6 +95,14 @@ def main() -> None:
     print("=" * 70)
 
     print(task)
+
+    print(
+        json.dumps(
+            registry.schemas(),
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
 
     result = agent.run(task)
 

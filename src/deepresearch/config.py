@@ -9,6 +9,7 @@ class Settings:
     llm_api_key: str
     llm_model: str
     llm_base_url: str | None
+    tavily_api_key: str | None
 
 
 def load_settings() -> Settings:
@@ -28,6 +29,11 @@ def load_settings() -> Settings:
 
     base_url = os.getenv(
         "LLM_BASE_URL",
+        "",
+    ).strip()
+
+    tavily_api_key = os.getenv(
+        "TAVILY_API_KEY",
         "",
     ).strip()
 
@@ -64,4 +70,5 @@ def load_settings() -> Settings:
         llm_api_key=api_key,
         llm_model=model,
         llm_base_url=base_url or None,
+        tavily_api_key=tavily_api_key or None,
     )
