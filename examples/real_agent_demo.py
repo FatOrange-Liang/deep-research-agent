@@ -14,6 +14,11 @@ from deepresearch.tools import (
     WebSearchTool,
 )
 
+from deepresearch.research import (
+    collect_sources,
+    validate_citations,
+)
+
 import json
 
 
@@ -106,6 +111,15 @@ def main() -> None:
 
     result = agent.run(task)
 
+    sources = collect_sources(
+        result.messages
+    )
+
+    validation = validate_citations(
+        result.answer or "",
+        sources,
+    )
+
     # ----------------------------------
     # Final answer
     # ----------------------------------
@@ -172,6 +186,46 @@ def main() -> None:
     print(
         "Stop reason:",
         result.stop_reason,
+    )
+
+    print()
+    print("=" * 70)
+    print("SOURCES")
+    print("=" * 70)
+
+    for source in sources.values():
+        print(
+            f"[{source.source_id}] "
+            f"{source.title}"
+        )
+        print(
+            f"URL: {source.url}"
+        )
+        print()
+
+
+    print("=" * 70)
+    print("CITATION VALIDATION")
+    print("=" * 70)
+
+    print(
+        "Cited:",
+        validation.cited_source_ids,
+    )
+
+    print(
+        "Valid:",
+        validation.valid_source_ids,
+    )
+
+    print(
+        "Invalid:",
+        validation.invalid_source_ids,
+    )
+
+    print(
+        "Citation validation passed:",
+        validation.is_valid,
     )
 
 

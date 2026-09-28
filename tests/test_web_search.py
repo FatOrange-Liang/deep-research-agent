@@ -90,6 +90,16 @@ def test_web_search() -> None:
         == "LangGraph"
     )
 
+    assert (
+        result["results"][0]["source_id"]
+        is not None
+    )
+
+    assert (
+        result["results"][0]["source_id"]
+        .startswith("S_")
+    )
+
 
 def test_empty_query() -> None:
 

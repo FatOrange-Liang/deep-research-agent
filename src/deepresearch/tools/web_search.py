@@ -5,6 +5,10 @@ import httpx
 
 from .base import BaseTool
 
+from deepresearch.research.sources import (
+    make_source_id,
+)
+
 
 class WebSearchTool(BaseTool):
     """
@@ -144,12 +148,22 @@ class WebSearchTool(BaseTool):
 
         for item in raw_results:
 
+            url = item.get(
+                "url",
+                "",
+            ).strip()
+
             normalized_results.append(
                 {
+                    "source_id": (
+                        make_source_id(url)
+                        if url
+                        else None
+                    ),
                     "title":
                         item.get("title", ""),
                     "url":
-                        item.get("url", ""),
+                        url,
                     "content":
                         item.get("content", ""),
                     "score":
