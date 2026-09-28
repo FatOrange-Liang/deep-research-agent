@@ -7,8 +7,12 @@ from deepresearch.llm import Message
 from .sources import Source
 
 
-CITATION_PATTERN = re.compile(
+VALID_CITATION_PATTERN = re.compile(
     r"\[(S_[0-9a-fA-F]{8})\]"
+)
+
+SOURCE_LIKE_PATTERN = re.compile(
+    r"\[(S_[^\]\s]+)\]"
 )
 
 
@@ -17,12 +21,14 @@ class CitationValidation:
     cited_source_ids: list[str]
     valid_source_ids: list[str]
     invalid_source_ids: list[str]
+    malformed_source_ids: list[str]
 
     @property
     def is_valid(self) -> bool:
-        return len(
-            self.invalid_source_ids
-        ) == 0
+        return (
+            len(self.invalid_source_ids) == 0
+            and len(self.malformed_source_ids) == 0
+        )
 
 
 def collect_sources(
@@ -129,14 +135,32 @@ def extract_citation_ids(
     answer: str,
 ) -> list[str]:
     """
-    Extract citation markers such as [S_1a2b3c4d].
+    Extract well-formed citation IDs such as [S_1a2b3c4d].
     """
 
-    matches = CITATION_PATTERN.findall(
+    matches = VALID_CITATION_PATTERN.findall(
         answer
     )
 
-    # Preserve order while removing duplicates.
+    return list(
+        dict.fromkeys(matches)
+    )
+
+def extract_source_like_ids(
+    answer: str,
+) -> list[str]:
+    """
+    Extract anything that looks like a source marker.
+
+    This intentionally catches malformed markers such as:
+        [S_1234567]
+        [S_xyz]
+    """
+
+    matches = SOURCE_LIKE_PATTERN.findall(
+        answer
+    )
+
     return list(
         dict.fromkeys(matches)
     )
@@ -147,28 +171,46 @@ def validate_citations(
     sources: dict[str, Source],
 ) -> CitationValidation:
     """
-    Verify that every source ID cited by the LLM
-    actually exists in collected tool evidence.
+    Validate citation existence and citation format.
     """
 
-    cited_ids = extract_citation_ids(
-        answer
+    source_like_ids = (
+        extract_source_like_ids(
+            answer
+        )
     )
+
+    well_formed_ids = (
+        extract_citation_ids(
+            answer
+        )
+    )
+
+    well_formed_set = set(
+        well_formed_ids
+    )
+
+    malformed_ids = [
+        source_id
+        for source_id in source_like_ids
+        if source_id not in well_formed_set
+    ]
 
     valid_ids = [
         source_id
-        for source_id in cited_ids
+        for source_id in well_formed_ids
         if source_id in sources
     ]
 
     invalid_ids = [
         source_id
-        for source_id in cited_ids
+        for source_id in well_formed_ids
         if source_id not in sources
     ]
 
     return CitationValidation(
-        cited_source_ids=cited_ids,
+        cited_source_ids=well_formed_ids,
         valid_source_ids=valid_ids,
         invalid_source_ids=invalid_ids,
+        malformed_source_ids=malformed_ids,
     )

@@ -129,3 +129,31 @@ def test_collect_sources_from_tool_message() -> None:
         ].title
         == "LangGraph docs"
     )
+
+def test_malformed_citation_is_detected() -> None:
+
+    sources = {
+        "S_4f78c9e4": Source(
+            source_id="S_4f78c9e4",
+            title="LangGraph docs",
+            url="https://example.com",
+            content="LangGraph documentation",
+        )
+    }
+
+    result = validate_citations(
+        (
+            "LangGraph supports "
+            "human-in-the-loop "
+            "[S_4f78c9e]."
+        ),
+        sources,
+    )
+
+    assert result.is_valid is False
+
+    assert result.malformed_source_ids == [
+        "S_4f78c9e"
+    ]
+
+    assert result.invalid_source_ids == []

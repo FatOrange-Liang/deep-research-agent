@@ -15,8 +15,7 @@ from deepresearch.tools import (
 )
 
 from deepresearch.research import (
-    collect_sources,
-    validate_citations,
+    CitationGuard,
 )
 
 import json
@@ -111,25 +110,15 @@ def main() -> None:
 
     result = agent.run(task)
 
-    sources = collect_sources(
-        result.messages
+    citation_guard = CitationGuard(
+        llm=llm,
+        max_repair_attempts=2,
     )
 
-    validation = validate_citations(
-        result.answer or "",
-        sources,
+    guard_result = citation_guard.check(
+        result
     )
 
-    # ----------------------------------
-    # Final answer
-    # ----------------------------------
-
-    print()
-    print("=" * 70)
-    print("FINAL ANSWER")
-    print("=" * 70)
-
-    print(result.answer)
 
     # ----------------------------------
     # Trace
@@ -153,9 +142,7 @@ def main() -> None:
                 step.assistant_content,
             )
 
-        for tool_call in (
-            step.tool_calls
-        ):
+        for tool_call in step.tool_calls:
 
             print(
                 f"Tool call: "
@@ -167,9 +154,7 @@ def main() -> None:
                 f"{tool_call.arguments}"
             )
 
-        for observation in (
-            step.observations
-        ):
+        for observation in step.observations:
 
             print(
                 f"Observation: "
@@ -181,6 +166,7 @@ def main() -> None:
                 f"{observation.is_error}"
             )
 
+
     print()
 
     print(
@@ -188,44 +174,84 @@ def main() -> None:
         result.stop_reason,
     )
 
+
+    # ----------------------------------
+    # Final answer
+    # ----------------------------------
+
+    print()
+    print("=" * 70)
+    print("FINAL ANSWER")
+    print("=" * 70)
+
+    print(
+        guard_result.answer
+    )
+
+
+    # ----------------------------------
+    # Sources
+    # ----------------------------------
+
     print()
     print("=" * 70)
     print("SOURCES")
     print("=" * 70)
 
-    for source in sources.values():
+    for source in (
+        guard_result.sources.values()
+    ):
+
         print(
             f"[{source.source_id}] "
             f"{source.title}"
         )
+
         print(
             f"URL: {source.url}"
         )
+
         print()
 
 
+    # ----------------------------------
+    # Citation guard
+    # ----------------------------------
+
     print("=" * 70)
-    print("CITATION VALIDATION")
+    print("CITATION GUARD")
     print("=" * 70)
 
     print(
-        "Cited:",
-        validation.cited_source_ids,
+        "Passed:",
+        guard_result.passed,
     )
 
     print(
-        "Valid:",
-        validation.valid_source_ids,
+        "Repaired:",
+        guard_result.repaired,
+    )
+
+    print(
+        "Repair attempts:",
+        guard_result.attempts,
+    )
+
+    print(
+        "Cited:",
+        guard_result.validation.cited_source_ids,
     )
 
     print(
         "Invalid:",
-        validation.invalid_source_ids,
+        guard_result.validation.invalid_source_ids,
     )
 
     print(
-        "Citation validation passed:",
-        validation.is_valid,
+        "Malformed:",
+        guard_result
+        .validation
+        .malformed_source_ids,
     )
 
 

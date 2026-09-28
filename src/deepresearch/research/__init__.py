@@ -2,12 +2,18 @@ from .citations import (
     CitationValidation,
     collect_sources,
     extract_citation_ids,
+    extract_source_like_ids,
     validate_citations,
 )
 
 from .sources import (
     Source,
     make_source_id,
+)
+
+from .guard import (
+    CitationGuard,
+    CitationGuardResult,
 )
 
 __all__ = [
@@ -17,4 +23,7 @@ __all__ = [
     "collect_sources",
     "extract_citation_ids",
     "validate_citations",
+    "CitationGuard",
+    "CitationGuardResult",
+    "extract_source_like_ids",
 ]
