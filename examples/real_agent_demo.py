@@ -11,6 +11,7 @@ from deepresearch.llm import (
 from deepresearch.tools import (
     CalculatorTool,
     ToolRegistry,
+    WebPageReaderTool,
     WebSearchTool,
 )
 
@@ -60,6 +61,10 @@ def main() -> None:
         )
     )
 
+    registry.register(
+        WebPageReaderTool()
+    )
+
     print(
         "Registered tools:",
         registry.names(),
@@ -88,10 +93,18 @@ def main() -> None:
     #     "你好，请用一句话介绍你自己。"
     # )
 
+    # task = (
+    #     "请搜索网页获取最新资料，"
+    #     "告诉我 LangGraph 主要是用来做什么的，"
+    #     "并简要总结。"
+    # )
+
     task = (
-        "请搜索网页获取最新资料，"
-        "告诉我 LangGraph 主要是用来做什么的，"
-        "并简要总结。"
+        "请搜索 LangGraph 的官方资料，"
+        "打开并阅读至少一个最相关的官方网页，"
+        "然后告诉我 LangGraph 的核心定位、"
+        "状态持久化和 human-in-the-loop "
+        "分别是怎么实现的。请提供引用。"
     )
 
     print("=" * 70)

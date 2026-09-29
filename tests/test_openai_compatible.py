@@ -8,6 +8,20 @@ from deepresearch.llm.openai_compatible import (
     OpenAICompatibleLLM,
 )
 
+import pytest
+
+
+def test_rejects_invalid_max_completion_tokens() -> None:
+
+    with pytest.raises(
+        ValueError,
+        match="max_completion_tokens",
+    ):
+        OpenAICompatibleLLM(
+            model="test-model",
+            api_key="test-key",
+            max_completion_tokens=0,
+        )
 
 def test_serialize_user_message() -> None:
     message = Message(

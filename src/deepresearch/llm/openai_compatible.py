@@ -25,21 +25,34 @@ class OpenAICompatibleLLM(BaseLLM):
         model: str,
         api_key: str,
         base_url: str | None = None,
+        max_completion_tokens: int = 2048,
     ) -> None:
 
-        if not model.strip():
+        model = model.strip()
+        api_key = api_key.strip()
+
+        if not model:
             raise ValueError(
                 "'model' cannot be empty."
             )
 
-        if not api_key.strip():
+        if not api_key:
             raise ValueError(
                 "'api_key' cannot be empty."
             )
 
-        self.model = model
+        if max_completion_tokens <= 0:
+            raise ValueError(
+                "'max_completion_tokens' "
+                "must be greater than zero."
+            )
 
-        client_kwargs: dict[str, Any] = {
+        self.model = model
+        self.max_completion_tokens = (
+            max_completion_tokens
+        )
+
+        client_kwargs = {
             "api_key": api_key,
         }
 
@@ -62,9 +75,14 @@ class OpenAICompatibleLLM(BaseLLM):
             for message in messages
         ]
 
-        request: dict[str, Any] = {
+        request = {
             "model": self.model,
-            "messages": provider_messages,
+            "messages": [
+                self._serialize_message(message)
+                for message in messages
+            ],
+            "max_completion_tokens":
+                self.max_completion_tokens,
         }
 
         if self.model.startswith("gpt-6"):
@@ -73,6 +91,78 @@ class OpenAICompatibleLLM(BaseLLM):
         if tools:
             request["tools"] = list(tools)
             request["tool_choice"] = "auto"
+
+
+        # serialized_messages = request.get(
+        #     "messages",
+        #     [],
+        # )
+
+        # serialized_tools = request.get(
+        #     "tools",
+        #     [],
+        # )
+
+        # message_char_counts = [
+        #     len(
+        #         json.dumps(
+        #             message,
+        #             ensure_ascii=False,
+        #         )
+        #     )
+        #     for message in serialized_messages
+        # ]
+
+        # tool_char_counts = [
+        #     len(
+        #         json.dumps(
+        #             tool,
+        #             ensure_ascii=False,
+        #         )
+        #     )
+        #     for tool in serialized_tools
+        # ]
+
+        # print(
+        #     "DEBUG LLM REQUEST:",
+        #     {
+        #         "model":
+        #             request.get("model"),
+
+        #         "max_completion_tokens":
+        #             request.get(
+        #                 "max_completion_tokens"
+        #             ),
+
+        #         "reasoning_effort":
+        #             request.get(
+        #                 "reasoning_effort"
+        #             ),
+
+        #         "message_count":
+        #             len(serialized_messages),
+
+        #         "message_char_counts":
+        #             message_char_counts,
+
+        #         "message_chars_total":
+        #             sum(message_char_counts),
+
+        #         "tool_count":
+        #             len(serialized_tools),
+
+        #         "tool_char_counts":
+        #             tool_char_counts,
+
+        #         "tool_chars_total":
+        #             sum(tool_char_counts),
+        #     },
+        # )
+
+        # raise RuntimeError(
+        #     "DEBUG_STOP_BEFORE_API_CALL"
+        # )
+
 
         completion = (
             self.client.chat.completions.create(

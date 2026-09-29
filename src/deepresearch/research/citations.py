@@ -45,7 +45,10 @@ def collect_sources(
         if message.role != "tool":
             continue
 
-        if message.name != "web_search":
+        if message.name not in {
+            "web_search",
+            "web_page_reader",
+        }:
             continue
 
         if not message.content:
@@ -58,10 +61,17 @@ def collect_sources(
         except json.JSONDecodeError:
             continue
 
-        results = data.get(
-            "results",
-            [],
-        )
+        if message.name == "web_search":
+            results = data.get(
+                "results",
+                [],
+            )
+
+        elif message.name == "web_page_reader":
+            results = [data]
+
+        else:
+            results = []
 
         if not isinstance(
             results,
