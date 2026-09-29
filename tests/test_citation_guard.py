@@ -1,9 +1,5 @@
 import json
 
-from deepresearch.agent import (
-    AgentResult,
-)
-
 from deepresearch.llm import (
     LLMResponse,
     Message,
@@ -12,12 +8,15 @@ from deepresearch.llm import (
 
 from deepresearch.research import (
     CitationGuard,
+    ResearchState,
 )
 
 
-def create_result(
-    answer: str,
-) -> AgentResult:
+def create_state() -> ResearchState:
+
+    state = ResearchState(
+        task="Research LangGraph"
+    )
 
     source_content = json.dumps(
         {
@@ -43,29 +42,18 @@ def create_result(
         }
     )
 
-    messages = [
-        Message(
-            role="user",
-            content="Research LangGraph",
-        ),
-        Message(
-            role="tool",
-            name="web_search",
-            tool_call_id="call_001",
-            content=source_content,
-        ),
-        Message(
-            role="assistant",
-            content=answer,
-        ),
-    ]
-
-    return AgentResult(
-        answer=answer,
-        stop_reason="completed",
-        messages=messages,
-        steps=[],
+    message = Message(
+        role="tool",
+        name="web_search",
+        tool_call_id="call_001",
+        content=source_content,
     )
+
+    state.ingest_message(
+        message
+    )
+
+    return state
 
 
 def test_valid_answer_requires_no_repair() -> None:
@@ -79,12 +67,11 @@ def test_valid_answer_requires_no_repair() -> None:
     )
 
     result = guard.check(
-        create_result(
-            (
-                "LangGraph is stateful "
-                "[S_12345678]."
-            )
-        )
+        answer=(
+            "LangGraph is stateful "
+            "[S_12345678]."
+        ),
+        state=create_state(),
     )
 
     assert result.passed
@@ -117,12 +104,11 @@ def test_invalid_citation_is_repaired() -> None:
     )
 
     result = guard.check(
-        create_result(
-            (
-                "LangGraph is stateful "
-                "[S_deadbeef]."
-            )
-        )
+        answer=(
+            "LangGraph is stateful "
+            "[S_deadbeef]."
+        ),
+        state=create_state(),
     )
 
     assert result.passed
@@ -156,9 +142,10 @@ def test_missing_citation_is_repaired() -> None:
     )
 
     result = guard.check(
-        create_result(
+        answer=(
             "LangGraph is stateful."
-        )
+        ),
+        state=create_state(),
     )
 
     assert result.passed
@@ -192,9 +179,10 @@ def test_guard_stops_after_max_attempts() -> None:
     )
 
     result = guard.check(
-        create_result(
+        answer=(
             "Wrong [S_deadbeef]."
-        )
+        ),
+        state=create_state(),
     )
 
     assert result.passed is False
@@ -208,6 +196,7 @@ def test_guard_stops_after_max_attempts() -> None:
         .invalid_source_ids
         == ["S_deadbeef"]
     )
+
 
 def test_malformed_citation_is_repaired() -> None:
 
@@ -227,12 +216,11 @@ def test_malformed_citation_is_repaired() -> None:
     )
 
     result = guard.check(
-        create_result(
-            (
-                "LangGraph is stateful "
-                "[S_1234567]."
-            )
-        )
+        answer=(
+            "LangGraph is stateful "
+            "[S_1234567]."
+        ),
+        state=create_state(),
     )
 
     assert result.passed

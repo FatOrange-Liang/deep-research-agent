@@ -1,7 +1,18 @@
-from dataclasses import dataclass, field
-from typing import Literal
+from __future__ import annotations
 
-from deepresearch.llm import Message, ToolCall
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Literal
+
+from deepresearch.llm import (
+    Message,
+    ToolCall,
+)
+
+
+if TYPE_CHECKING:
+    from deepresearch.research.state import (
+        ResearchState,
+    )
 
 
 StopReason = Literal[
@@ -13,19 +24,22 @@ StopReason = Literal[
 @dataclass
 class ToolObservation:
     """
-    Result produced after executing one tool call.
+    Result returned by one tool execution.
     """
 
     tool_call_id: str
+
     tool_name: str
+
     content: str
+
     is_error: bool = False
 
 
 @dataclass
 class AgentStep:
     """
-    One reasoning/action step in an agent trajectory.
+    One reasoning / action step executed by the agent.
     """
 
     step_number: int
@@ -44,7 +58,7 @@ class AgentStep:
 @dataclass
 class AgentResult:
     """
-    Final result returned by an agent run.
+    Final result returned by the agent runtime.
     """
 
     answer: str | None
@@ -55,6 +69,11 @@ class AgentResult:
 
     steps: list[AgentStep]
 
+    research_state: ResearchState | None = None
+
     @property
     def completed(self) -> bool:
-        return self.stop_reason == "completed"
+        return (
+            self.stop_reason
+            == "completed"
+        )

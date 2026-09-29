@@ -17,6 +17,7 @@ from deepresearch.tools import (
 
 from deepresearch.research import (
     CitationGuard,
+    ResearchState,
 )
 
 import json
@@ -121,7 +122,12 @@ def main() -> None:
         )
     )
 
-    result = agent.run(task)
+    research_state = (
+        ResearchState.from_messages(
+            task=task,
+            messages=result.messages,
+        )
+    )
 
     citation_guard = CitationGuard(
         llm=llm,
@@ -129,7 +135,27 @@ def main() -> None:
     )
 
     guard_result = citation_guard.check(
-        result
+        answer=result.answer or "",
+        state=research_state,
+    )
+
+    research_state = (
+        result.research_state
+    )
+
+    if research_state is None:
+        raise RuntimeError(
+            "Agent did not return research state."
+        )
+
+    citation_guard = CitationGuard(
+        llm=llm,
+        max_repair_attempts=2,
+    )
+
+    guard_result = citation_guard.check(
+        answer=result.answer or "",
+        state=research_state,
     )
 
 
@@ -265,6 +291,36 @@ def main() -> None:
         guard_result
         .validation
         .malformed_source_ids,
+    )
+
+    print()
+    print("=" * 70)
+    print("RESEARCH STATE")
+    print("=" * 70)
+
+    print(
+        "Search queries:",
+        research_state.search_queries,
+    )
+
+    print(
+        "Sources:",
+        research_state.source_count,
+    )
+
+    print(
+        "Full pages read:",
+        research_state.read_source_count,
+    )
+
+    print(
+        "Unread sources:",
+        research_state.unread_source_count,
+    )
+
+    print(
+        "Tool observations:",
+        research_state.tool_observation_count,
     )
 
 

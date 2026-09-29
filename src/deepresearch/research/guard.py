@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
 
 from deepresearch.llm import (
     BaseLLM,
@@ -10,15 +9,11 @@ from deepresearch.llm import (
 
 from .citations import (
     CitationValidation,
-    collect_sources,
     validate_citations,
 )
 
 from .sources import Source
-
-
-if TYPE_CHECKING:
-    from deepresearch.agent.types import AgentResult
+from .state import ResearchState
 
 
 @dataclass(frozen=True)
@@ -42,11 +37,12 @@ class CitationGuardResult:
 
 class CitationGuard:
     """
-    Validate citations in a research answer and ask the LLM
-    to repair the answer when citations are missing or invalid.
+    Validate citations against structured research state.
 
-    The guard never performs new research. It may only use
-    sources that already exist in the agent trajectory.
+    The guard may ask the LLM to repair malformed,
+    missing, or hallucinated citation IDs.
+
+    It never performs new research.
     """
 
     def __init__(
@@ -74,14 +70,15 @@ class CitationGuard:
 
     def check(
         self,
-        result: AgentResult,
+        *,
+        answer: str,
+        state: ResearchState,
     ) -> CitationGuardResult:
+        """
+        Validate and, when necessary, repair a candidate answer.
+        """
 
-        sources = collect_sources(
-            result.messages
-        )
-
-        answer = result.answer or ""
+        sources = state.citation_sources
 
         validation = validate_citations(
             answer,
@@ -101,9 +98,7 @@ class CitationGuard:
                 attempts=0,
             )
 
-        messages = list(
-            result.messages
-        )
+        current_answer = answer
 
         for attempt in range(
             1,
@@ -112,20 +107,19 @@ class CitationGuard:
 
             repair_prompt = (
                 self._build_repair_prompt(
+                    answer=current_answer,
                     validation=validation,
                     sources=sources,
                 )
             )
 
-            messages.append(
-                Message(
-                    role="user",
-                    content=repair_prompt,
-                )
-            )
-
             response = self.llm.chat(
-                messages=messages,
+                messages=[
+                    Message(
+                        role="user",
+                        content=repair_prompt,
+                    )
+                ],
                 tools=None,
             )
 
@@ -141,20 +135,13 @@ class CitationGuard:
                     "an empty answer."
                 )
 
-            answer = response.content
-
-            messages.append(
-                Message(
-                    role="assistant",
-                    content=answer,
-                )
+            current_answer = (
+                response.content
             )
 
-            validation = (
-                validate_citations(
-                    answer,
-                    sources,
-                )
+            validation = validate_citations(
+                current_answer,
+                sources,
             )
 
             if self._passes(
@@ -162,7 +149,7 @@ class CitationGuard:
                 sources,
             ):
                 return CitationGuardResult(
-                    answer=answer,
+                    answer=current_answer,
                     validation=validation,
                     sources=sources,
                     passed=True,
@@ -171,7 +158,7 @@ class CitationGuard:
                 )
 
         return CitationGuardResult(
-            answer=answer,
+            answer=current_answer,
             validation=validation,
             sources=sources,
             passed=False,
@@ -202,21 +189,33 @@ class CitationGuard:
     @staticmethod
     def _build_repair_prompt(
         *,
+        answer: str,
         validation: CitationValidation,
         sources: dict[str, Source],
     ) -> str:
 
-        source_lines = []
+        source_blocks = []
 
         for source in sources.values():
 
-            source_lines.append(
-                f"[{source.source_id}] "
-                f"{source.title}"
+            excerpt = (
+                source.content[:600]
+                .replace("\n", " ")
+                .strip()
             )
 
-        available_sources = "\n".join(
-            source_lines
+            source_blocks.append(
+                (
+                    f"[{source.source_id}] "
+                    f"{source.title}\n"
+                    f"Evidence: {excerpt}"
+                )
+            )
+
+        available_sources = (
+            "\n\n".join(
+                source_blocks
+            )
         )
 
         problems = []
@@ -229,7 +228,7 @@ class CitationGuard:
 
             problems.append(
                 "The previous answer contains "
-                "invalid source IDs: "
+                "source IDs that do not exist: "
                 f"{invalid}."
             )
 
@@ -242,9 +241,7 @@ class CitationGuard:
             problems.append(
                 "The previous answer contains "
                 "malformed source IDs: "
-                f"{malformed}. "
-                "Source IDs must exactly match "
-                "one of the allowed IDs."
+                f"{malformed}."
             )
 
         if (
@@ -253,9 +250,9 @@ class CitationGuard:
         ):
 
             problems.append(
-                "The previous answer did not "
-                "include citations even though "
-                "web sources were used."
+                "The previous answer used web "
+                "research but did not include "
+                "valid citations."
             )
 
         problem_text = "\n".join(
@@ -265,20 +262,26 @@ class CitationGuard:
         return f"""
 Your previous answer failed citation validation.
 
+Previous answer:
+---
+{answer}
+---
+
 Problems:
 {problem_text}
 
-Allowed source IDs:
+Available evidence:
 {available_sources}
 
 Revise the previous answer.
 
 Rules:
-1. Use only source IDs listed above.
-2. Never invent a source ID.
-3. Place citations directly after the supported factual claim.
-4. Do not invent URLs or Markdown links.
-5. Do not perform new research.
-6. Preserve the useful content of the answer where possible.
-7. Return only the revised final answer.
+1. Use only source IDs listed in the available evidence.
+2. Copy source IDs exactly.
+3. Never invent, shorten, or modify a source ID.
+4. Place citations directly after the supported factual claim.
+5. Do not invent URLs or Markdown citation links.
+6. Do not perform new research.
+7. Preserve useful content where it is supported.
+8. Return only the revised final answer.
 """.strip()

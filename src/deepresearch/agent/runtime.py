@@ -1,6 +1,7 @@
 from deepresearch.llm import (
     BaseLLM,
     Message,
+    ToolCall,
 )
 
 from deepresearch.tools import ToolRegistry
@@ -10,6 +11,10 @@ from .types import (
     AgentResult,
     AgentStep,
     ToolObservation,
+)
+
+from deepresearch.research.state import (
+    ResearchState,
 )
 
 
@@ -69,6 +74,10 @@ class Agent:
                 "'task' cannot be empty."
             )
 
+        research_state = ResearchState(
+            task=task
+        )
+
         messages = [
             Message(
                 role="system",
@@ -119,34 +128,38 @@ class Agent:
 
                 for tool_call in response.tool_calls:
 
-                    observation = (
+                    observation_content, is_error = (
                         self._execute_tool_call(
-                            tool_call.name,
-                            tool_call.arguments,
+                            tool_call
                         )
                     )
 
-                    tool_observation = (
-                        ToolObservation(
-                            tool_call_id=tool_call.id,
-                            tool_name=tool_call.name,
-                            content=observation[0],
-                            is_error=observation[1],
-                        )
+                    observation = ToolObservation(
+                        tool_call_id=tool_call.id,
+                        tool_name=tool_call.name,
+                        content=observation_content,
+                        is_error=is_error,
                     )
 
                     step.observations.append(
-                        tool_observation
+                        observation
+                    )
+
+                    tool_message = Message(
+                        role="tool",
+                        name=tool_call.name,
+                        tool_call_id=tool_call.id,
+                        content=observation_content,
                     )
 
                     messages.append(
-                        Message(
-                            role="tool",
-                            content=observation[0],
-                            name=tool_call.name,
-                            tool_call_id=tool_call.id,
-                        )
+                        tool_message
                     )
+
+                    if not is_error:
+                        research_state.ingest_message(
+                            tool_message
+                        )
 
                 steps.append(step)
 
@@ -166,6 +179,7 @@ class Agent:
                     stop_reason="completed",
                     messages=messages,
                     steps=steps,
+                    research_state=research_state,
                 )
 
             # -----------------------------------------
@@ -183,31 +197,27 @@ class Agent:
             stop_reason="max_steps",
             messages=messages,
             steps=steps,
+            research_state=research_state,
         )
 
     def _execute_tool_call(
         self,
-        tool_name: str,
-        arguments: dict,
+        tool_call: ToolCall,
     ) -> tuple[str, bool]:
         """
         Execute one tool call.
 
-        Tool failures are converted into observations rather
-        than crashing the whole agent runtime.
-
-        Returns:
-            (content, is_error)
+        Tool failures are converted into observations instead
+        of crashing the entire agent.
         """
 
         try:
-
-            result = self.tools.execute(
-                tool_name,
-                **arguments,
+            content = self.tools.execute(
+                tool_call.name,
+                **tool_call.arguments,
             )
 
-            return result, False
+            return content, False
 
         except Exception as exc:
 

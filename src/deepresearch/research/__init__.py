@@ -16,6 +16,11 @@ from .guard import (
     CitationGuardResult,
 )
 
+from .state import (
+    EvidenceRecord,
+    ResearchState,
+)
+
 __all__ = [
     "Source",
     "make_source_id",
@@ -26,4 +31,6 @@ __all__ = [
     "CitationGuard",
     "CitationGuardResult",
     "extract_source_like_ids",
+    "EvidenceRecord",
+    "ResearchState",
 ]

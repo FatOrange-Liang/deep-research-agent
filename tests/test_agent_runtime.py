@@ -1,4 +1,5 @@
 import pytest
+import json
 
 from deepresearch.agent import Agent
 from deepresearch.llm import (
@@ -10,6 +11,8 @@ from deepresearch.tools import (
     CalculatorTool,
     ToolRegistry,
 )
+
+from deepresearch.tools import BaseTool
 
 
 def create_registry() -> ToolRegistry:
@@ -272,3 +275,245 @@ def test_empty_task_is_rejected() -> None:
         match="cannot be empty",
     ):
         agent.run("   ")
+
+
+class FakeWebSearchTool(BaseTool):
+
+    name = "web_search"
+    description = "Fake web search."
+
+    parameters = {
+        "type": "object",
+        "properties": {
+            "query": {
+                "type": "string",
+            }
+        },
+        "required": ["query"],
+        "additionalProperties": False,
+    }
+
+    def execute(
+        self,
+        **kwargs,
+    ) -> str:
+
+        return json.dumps(
+            {
+                "query": kwargs["query"],
+                "results": [
+                    {
+                        "source_id":
+                            "S_12345678",
+                        "title":
+                            "LangGraph docs",
+                        "url":
+                            "https://example.com/langgraph",
+                        "content":
+                            "Search snippet",
+                        "score":
+                            0.9,
+                    }
+                ],
+            }
+        )
+
+
+class FakeWebPageReaderTool(BaseTool):
+
+    name = "web_page_reader"
+    description = "Fake page reader."
+
+    parameters = {
+        "type": "object",
+        "properties": {
+            "url": {
+                "type": "string",
+            }
+        },
+        "required": ["url"],
+        "additionalProperties": False,
+    }
+
+    def execute(
+        self,
+        **kwargs,
+    ) -> str:
+
+        return json.dumps(
+            {
+                "source_id":
+                    "S_12345678",
+                "title":
+                    "LangGraph docs",
+                "url":
+                    kwargs["url"],
+                "content":
+                    "Full page evidence",
+                "content_type":
+                    "text/html",
+                "truncated":
+                    False,
+            }
+        )
+
+def test_agent_updates_research_state_from_search() -> None:
+
+    llm = MockLLM(
+        responses=[
+            LLMResponse(
+                tool_calls=[
+                    ToolCall(
+                        id="call_search",
+                        name="web_search",
+                        arguments={
+                            "query": "LangGraph",
+                        },
+                    )
+                ]
+            ),
+            LLMResponse(
+                content="Done."
+            ),
+        ]
+    )
+
+    registry = ToolRegistry()
+
+    registry.register(
+        FakeWebSearchTool()
+    )
+
+    agent = Agent(
+        llm=llm,
+        tools=registry,
+    )
+
+    result = agent.run(
+        "Research LangGraph"
+    )
+
+    assert result.research_state is not None
+
+    state = result.research_state
+
+    assert state.source_count == 1
+
+    assert state.search_queries == [
+        "LangGraph"
+    ]
+
+    assert (
+        state.tool_observation_count
+        == 1
+    )
+
+    record = state.sources[
+        "S_12345678"
+    ]
+
+    assert (
+        record.discovered_by_search
+        is True
+    )
+
+    assert (
+        record.read_full_page
+        is False
+    )
+
+def test_agent_enriches_research_state_from_page_reader() -> None:
+
+    llm = MockLLM(
+        responses=[
+            LLMResponse(
+                tool_calls=[
+                    ToolCall(
+                        id="call_search",
+                        name="web_search",
+                        arguments={
+                            "query": "LangGraph",
+                        },
+                    )
+                ]
+            ),
+            LLMResponse(
+                tool_calls=[
+                    ToolCall(
+                        id="call_reader",
+                        name="web_page_reader",
+                        arguments={
+                            "url":
+                                "https://example.com/langgraph",
+                        },
+                    )
+                ]
+            ),
+            LLMResponse(
+                content="Done."
+            ),
+        ]
+    )
+
+    registry = ToolRegistry()
+
+    registry.register(
+        FakeWebSearchTool()
+    )
+
+    registry.register(
+        FakeWebPageReaderTool()
+    )
+
+    agent = Agent(
+        llm=llm,
+        tools=registry,
+    )
+
+    result = agent.run(
+        "Research LangGraph"
+    )
+
+    assert result.research_state is not None
+
+    state = result.research_state
+
+    assert state.source_count == 1
+
+    assert state.read_source_count == 1
+
+    assert state.unread_source_count == 0
+
+    assert (
+        state.tool_observation_count
+        == 2
+    )
+
+    record = state.sources[
+        "S_12345678"
+    ]
+
+    assert (
+        record.source.content
+        == "Full page evidence"
+    )
+
+    assert (
+        record.source.score
+        == 0.9
+    )
+
+    assert (
+        record.read_full_page
+        is True
+    )
+
+    assert (
+        record.content_type
+        == "text/html"
+    )
+
+    assert (
+        record.truncated
+        is False
+    )
