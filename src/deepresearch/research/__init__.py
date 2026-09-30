@@ -28,6 +28,11 @@ from .policy import (
     EvidencePolicyConfig,
 )
 
+from .controller import (
+    ResearchControl,
+    ResearchController,
+)
+
 __all__ = [
     "Source",
     "make_source_id",
@@ -44,4 +49,6 @@ __all__ = [
     "EvidenceDecision",
     "EvidencePolicy",
     "EvidencePolicyConfig",
+    "ResearchControl",
+    "ResearchController",
 ]
