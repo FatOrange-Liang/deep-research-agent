@@ -1,3 +1,6 @@
+
+import json
+
 from deepresearch.agent import Agent
 
 from deepresearch.config import (
@@ -17,33 +20,34 @@ from deepresearch.tools import (
 
 from deepresearch.research import (
     CitationGuard,
-    ResearchState,
+    EvidencePolicy,
+    EvidencePolicyConfig,
+    ResearchController,
 )
-
-import json
 
 
 def main() -> None:
 
-    # ----------------------------------
-    # Configuration
-    # ----------------------------------
+    # =========================================
+    # 1. Configuration
+    # =========================================
 
     settings = load_settings()
 
-    # ----------------------------------
-    # Real LLM
-    # ----------------------------------
+    # =========================================
+    # 2. Real LLM
+    # =========================================
 
     llm = OpenAICompatibleLLM(
         model=settings.llm_model,
         api_key=settings.llm_api_key,
         base_url=settings.llm_base_url,
+        max_completion_tokens=2048,
     )
 
-    # ----------------------------------
-    # Tools
-    # ----------------------------------
+    # =========================================
+    # 3. Tool Registry
+    # =========================================
 
     registry = ToolRegistry()
 
@@ -71,34 +75,37 @@ def main() -> None:
         registry.names(),
     )
 
-    # ----------------------------------
-    # Agent
-    # ----------------------------------
+    # =========================================
+    # 4. Deep Research Evidence Policy
+    # =========================================
+
+    policy = EvidencePolicy(
+        EvidencePolicyConfig(
+            min_sources=3,
+            min_full_pages=1,
+            min_search_queries=1,
+            max_recommended_reads=2,
+        )
+    )
+
+    controller = ResearchController(
+        policy=policy
+    )
+
+    # =========================================
+    # 5. Initialize Research Agent
+    # =========================================
 
     agent = Agent(
         llm=llm,
         tools=registry,
-        max_steps=8,
+        research_controller=controller,
+        max_steps=12,
     )
 
-    # ----------------------------------
-    # User task
-    # ----------------------------------
-
-    # task = (
-    #     "请准确计算 28374 乘以 928，"
-    #     "并告诉我结果。"
-    # )
-
-    # task = (
-    #     "你好，请用一句话介绍你自己。"
-    # )
-
-    # task = (
-    #     "请搜索网页获取最新资料，"
-    #     "告诉我 LangGraph 主要是用来做什么的，"
-    #     "并简要总结。"
-    # )
+    # =========================================
+    # 6. Research Task
+    # =========================================
 
     task = (
         "请搜索 LangGraph 的官方资料，"
@@ -108,11 +115,17 @@ def main() -> None:
         "分别是怎么实现的。请提供引用。"
     )
 
+    print()
     print("=" * 70)
     print("TASK")
     print("=" * 70)
 
     print(task)
+
+    print()
+    print("=" * 70)
+    print("AVAILABLE TOOLS")
+    print("=" * 70)
 
     print(
         json.dumps(
@@ -122,46 +135,30 @@ def main() -> None:
         )
     )
 
-    research_state = (
-        ResearchState.from_messages(
-            task=task,
-            messages=result.messages,
-        )
-    )
+    # =========================================
+    # 7. Execute Agent
+    # =========================================
 
-    citation_guard = CitationGuard(
-        llm=llm,
-        max_repair_attempts=2,
-    )
+    # This was missing in the previous version.
+    # Agent.run() returns AgentResult.
 
-    guard_result = citation_guard.check(
-        answer=result.answer or "",
-        state=research_state,
-    )
+    result = agent.run(task)
 
-    research_state = (
-        result.research_state
-    )
+    # ResearchState is now maintained by
+    # Agent Runtime during tool execution.
+    #
+    # Do not reconstruct it from messages.
+
+    research_state = result.research_state
 
     if research_state is None:
         raise RuntimeError(
             "Agent did not return research state."
         )
 
-    citation_guard = CitationGuard(
-        llm=llm,
-        max_repair_attempts=2,
-    )
-
-    guard_result = citation_guard.check(
-        answer=result.answer or "",
-        state=research_state,
-    )
-
-
-    # ----------------------------------
-    # Trace
-    # ----------------------------------
+    # =========================================
+    # 8. Agent Trajectory
+    # =========================================
 
     print()
     print("=" * 70)
@@ -170,9 +167,14 @@ def main() -> None:
 
     for step in result.steps:
 
+        print()
         print(
-            f"\nStep {step.step_number}"
+            f"Step {step.step_number}"
         )
+
+        # -------------------------------------
+        # Assistant output
+        # -------------------------------------
 
         if step.assistant_content:
 
@@ -181,82 +183,154 @@ def main() -> None:
                 step.assistant_content,
             )
 
+        # -------------------------------------
+        # Tool calls
+        # -------------------------------------
+
         for tool_call in step.tool_calls:
 
             print(
-                f"Tool call: "
-                f"{tool_call.name}"
+                "Tool call:",
+                tool_call.name,
             )
 
             print(
-                f"Arguments: "
-                f"{tool_call.arguments}"
+                "Arguments:",
+                tool_call.arguments,
             )
+
+        # -------------------------------------
+        # Tool observations
+        # -------------------------------------
 
         for observation in step.observations:
 
+            # Limit terminal log length.
+            # This does NOT modify the actual
+            # evidence stored in ResearchState.
+
+            content_preview = (
+                observation.content
+            )
+
+            if len(content_preview) > 1500:
+
+                content_preview = (
+                    content_preview[:1500]
+                    + "\n...[LOG TRUNCATED]"
+                )
+
             print(
-                f"Observation: "
-                f"{observation.content}"
+                "Observation:",
+                content_preview,
             )
 
             print(
-                f"Error: "
-                f"{observation.is_error}"
+                "Error:",
+                observation.is_error,
             )
-
 
     print()
-
     print(
         "Stop reason:",
         result.stop_reason,
     )
 
-
-    # ----------------------------------
-    # Final answer
-    # ----------------------------------
+    # =========================================
+    # 9. Research State Summary
+    # =========================================
 
     print()
     print("=" * 70)
-    print("FINAL ANSWER")
+    print("RESEARCH STATE")
     print("=" * 70)
 
     print(
-        guard_result.answer
+        "Search queries:",
+        research_state.search_queries,
     )
 
+    print(
+        "Sources discovered:",
+        research_state.source_count,
+    )
 
-    # ----------------------------------
-    # Sources
-    # ----------------------------------
+    print(
+        "Full pages read:",
+        research_state.read_source_count,
+    )
 
-    print()
-    print("=" * 70)
-    print("SOURCES")
-    print("=" * 70)
+    print(
+        "Unread sources:",
+        research_state.unread_source_count,
+    )
 
-    for source in (
-        guard_result.sources.values()
-    ):
+    print(
+        "Tool observations:",
+        research_state.tool_observation_count,
+    )
 
-        print(
-            f"[{source.source_id}] "
-            f"{source.title}"
-        )
+    # =========================================
+    # 10. Research Completion Check
+    # =========================================
 
-        print(
-            f"URL: {source.url}"
-        )
+    # If max_steps was reached before the
+    # evidence requirements were satisfied,
+    # do not publish an incomplete final answer.
+
+    if not result.completed:
 
         print()
+        print("=" * 70)
+        print("RESEARCH INCOMPLETE")
+        print("=" * 70)
 
+        print(
+            "The agent stopped before completing "
+            "the research task."
+        )
 
-    # ----------------------------------
-    # Citation guard
-    # ----------------------------------
+        print(
+            "Stop reason:",
+            result.stop_reason,
+        )
 
+        return
+
+    # Guard against an empty final answer.
+
+    if not result.answer or not result.answer.strip():
+
+        print()
+        print(
+            "ERROR: Agent completed but returned "
+            "an empty final answer."
+        )
+
+        return
+
+    # =========================================
+    # 11. Citation Guard
+    # =========================================
+
+    # Only execute citation validation after
+    # research completion has been confirmed.
+
+    citation_guard = CitationGuard(
+        llm=llm,
+        max_repair_attempts=2,
+    )
+
+    guard_result = citation_guard.check(
+        answer=result.answer,
+        state=research_state,
+    )
+
+    # =========================================
+    # 12. Citation Validation Report
+    # =========================================
+
+    print()
     print("=" * 70)
     print("CITATION GUARD")
     print("=" * 70)
@@ -288,39 +362,69 @@ def main() -> None:
 
     print(
         "Malformed:",
-        guard_result
-        .validation
-        .malformed_source_ids,
+        guard_result.validation.malformed_source_ids,
     )
+
+    # =========================================
+    # 13. Sources
+    # =========================================
 
     print()
     print("=" * 70)
-    print("RESEARCH STATE")
+    print("SOURCES")
+    print("=" * 70)
+
+    for source in guard_result.sources.values():
+
+        print(
+            f"[{source.source_id}] "
+            f"{source.title}"
+        )
+
+        print(
+            f"URL: {source.url}"
+        )
+
+        print()
+
+    # =========================================
+    # 14. Citation Gate
+    # =========================================
+
+    # A failed citation guard means the answer
+    # is not ready to be presented as validated.
+
+    if not guard_result.passed:
+
+        print()
+        print("=" * 70)
+        print("CITATION VALIDATION FAILED")
+        print("=" * 70)
+
+        print(
+            "The candidate answer did not pass "
+            "citation validation."
+        )
+
+        print()
+        print("Candidate answer for debugging:")
+        print(
+            guard_result.answer
+        )
+
+        return
+
+    # =========================================
+    # 15. Final Answer
+    # =========================================
+
+    print()
+    print("=" * 70)
+    print("FINAL ANSWER")
     print("=" * 70)
 
     print(
-        "Search queries:",
-        research_state.search_queries,
-    )
-
-    print(
-        "Sources:",
-        research_state.source_count,
-    )
-
-    print(
-        "Full pages read:",
-        research_state.read_source_count,
-    )
-
-    print(
-        "Unread sources:",
-        research_state.unread_source_count,
-    )
-
-    print(
-        "Tool observations:",
-        research_state.tool_observation_count,
+        guard_result.answer
     )
 
 
