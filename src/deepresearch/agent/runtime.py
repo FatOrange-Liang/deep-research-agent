@@ -1,3 +1,4 @@
+
 from deepresearch.llm import (
     BaseLLM,
     Message,
@@ -6,36 +7,50 @@ from deepresearch.llm import (
 
 from deepresearch.tools import ToolRegistry
 
+from deepresearch.research.state import (
+    ResearchState,
+)
+
+from deepresearch.research.controller import (
+    ResearchController,
+)
+
 from .prompts import DEFAULT_SYSTEM_PROMPT
+
 from .types import (
     AgentResult,
     AgentStep,
     ToolObservation,
 )
 
-from deepresearch.research.state import (
-    ResearchState,
-)
-
 
 class Agent:
     """
-    Minimal autonomous agent runtime.
+    Autonomous agent runtime with optional
+    research completion control.
 
-    The runtime repeatedly:
+    The runtime repeatedly executes:
 
         LLM
-         ↓
+         |
+         v
       Tool Call
-         ↓
+         |
+         v
       Tool Execution
-         ↓
+         |
+         v
       Observation
-         ↓
+         |
+         v
+    ResearchState
+         |
+         v
         LLM
 
-    until the model returns a final answer or the maximum
-    number of steps is reached.
+    If a ResearchController is provided, the agent
+    cannot finish until the configured evidence
+    requirements have been satisfied.
     """
 
     def __init__(
@@ -45,6 +60,7 @@ class Agent:
         *,
         system_prompt: str = DEFAULT_SYSTEM_PROMPT,
         max_steps: int = 8,
+        research_controller: ResearchController | None = None,
     ) -> None:
 
         if max_steps <= 0:
@@ -53,9 +69,16 @@ class Agent:
             )
 
         self.llm = llm
+
         self.tools = tools
+
         self.system_prompt = system_prompt
+
         self.max_steps = max_steps
+
+        # Optional research completion gate.
+        # None means normal Agent behavior.
+        self.research_controller = research_controller
 
     def run(
         self,
@@ -74,6 +97,10 @@ class Agent:
                 "'task' cannot be empty."
             )
 
+        # -----------------------------------------
+        # Initialize research state
+        # -----------------------------------------
+
         research_state = ResearchState(
             task=task
         )
@@ -90,6 +117,10 @@ class Agent:
         ]
 
         steps: list[AgentStep] = []
+
+        # -----------------------------------------
+        # Main Agent Loop
+        # -----------------------------------------
 
         for step_number in range(
             1,
@@ -152,27 +183,92 @@ class Agent:
                         content=observation_content,
                     )
 
+                    # Maintain conversation history.
                     messages.append(
                         tool_message
                     )
 
+                    # Maintain research state in real time.
+                    # Failed tool calls must not become evidence.
                     if not is_error:
+
                         research_state.ingest_message(
                             tool_message
                         )
 
-                steps.append(step)
+                steps.append(
+                    step
+                )
 
                 continue
 
             # -----------------------------------------
             # Case 2:
-            # LLM returns final answer
+            # LLM attempts to return a final answer
             # -----------------------------------------
 
             if response.content is not None:
 
-                steps.append(step)
+                # -------------------------------------
+                # Optional Research Completion Gate
+                # -------------------------------------
+
+                if self.research_controller is not None:
+
+                    control = (
+                        self.research_controller.evaluate(
+                            research_state
+                        )
+                    )
+
+                    # Evidence requirements are not met.
+                    # Reject premature completion.
+                    if not control.can_finish:
+
+                        if not control.instruction:
+
+                            raise RuntimeError(
+                                "Research controller blocked "
+                                "completion but returned "
+                                "no instruction."
+                            )
+
+                        # Record this attempted answer as
+                        # an actual Agent step.
+                        steps.append(
+                            step
+                        )
+
+                        # Feed controller guidance back
+                        # into the next LLM iteration.
+                        #
+                        # Use a user-role feedback message
+                        # rather than introducing another
+                        # system message mid-conversation.
+                        messages.append(
+                            Message(
+                                role="user",
+                                content=(
+                                    "Research controller feedback:\n\n"
+                                    f"{control.instruction}\n\n"
+                                    "Continue the research task. "
+                                    "Do not repeat the rejected "
+                                    "final answer."
+                                ),
+                            )
+                        )
+
+                        # Do not return AgentResult here.
+                        # Continue to the next LLM step.
+                        continue
+
+                # -------------------------------------
+                # Completion is allowed
+                # -------------------------------------
+
+                steps.append(
+                    step
+                )
 
                 return AgentResult(
                     answer=response.content,
@@ -184,13 +280,17 @@ class Agent:
 
             # -----------------------------------------
             # Case 3:
-            # Invalid empty response
+            # Invalid empty LLM response
             # -----------------------------------------
 
             raise RuntimeError(
                 "LLM returned neither content "
                 "nor tool calls."
             )
+
+        # -----------------------------------------
+        # Maximum step limit reached
+        # -----------------------------------------
 
         return AgentResult(
             answer=None,
@@ -207,11 +307,12 @@ class Agent:
         """
         Execute one tool call.
 
-        Tool failures are converted into observations instead
-        of crashing the entire agent.
+        Tool failures are converted into observations
+        instead of crashing the entire agent.
         """
 
         try:
+
             content = self.tools.execute(
                 tool_call.name,
                 **tool_call.arguments,

@@ -14,6 +14,11 @@ from deepresearch.tools import (
 
 from deepresearch.tools import BaseTool
 
+from deepresearch.research import (
+    EvidencePolicy,
+    EvidencePolicyConfig,
+    ResearchController,
+)
 
 def create_registry() -> ToolRegistry:
     registry = ToolRegistry()
@@ -517,3 +522,134 @@ def test_agent_enriches_research_state_from_page_reader() -> None:
         record.truncated
         is False
     )
+
+
+def test_research_controller_blocks_premature_answer() -> None:
+
+    llm = MockLLM(
+        responses=[
+            # Step 1: LLM tries to answer without research.
+            LLMResponse(
+                content="Premature answer."
+            ),
+
+            # Step 2: Controller requires search.
+            LLMResponse(
+                tool_calls=[
+                    ToolCall(
+                        id="call_search",
+                        name="web_search",
+                        arguments={
+                            "query": "LangGraph"
+                        },
+                    )
+                ]
+            ),
+
+            # Step 3: LLM tries to finish again.
+            LLMResponse(
+                content="Still premature."
+            ),
+
+            # Step 4: Controller requires page reading.
+            LLMResponse(
+                tool_calls=[
+                    ToolCall(
+                        id="call_reader",
+                        name="web_page_reader",
+                        arguments={
+                            "url":
+                                "https://example.com/langgraph"
+                        },
+                    )
+                ]
+            ),
+
+            # Step 5: Research is complete.
+            LLMResponse(
+                content="Final researched answer."
+            ),
+        ]
+    )
+
+    registry = ToolRegistry()
+
+    registry.register(
+        FakeWebSearchTool()
+    )
+
+    registry.register(
+        FakeWebPageReaderTool()
+    )
+
+    policy = EvidencePolicy(
+        EvidencePolicyConfig(
+            min_sources=1,
+            min_full_pages=1,
+            min_search_queries=1,
+        )
+    )
+
+    controller = ResearchController(
+        policy=policy
+    )
+
+    agent = Agent(
+        llm=llm,
+        tools=registry,
+        research_controller=controller,
+        max_steps=5,
+    )
+
+    result = agent.run(
+        "Research LangGraph"
+    )
+
+    # The first two premature answers must not
+    # terminate the agent.
+    assert result.completed
+
+    assert (
+        result.answer
+        == "Final researched answer."
+    )
+
+    assert len(result.steps) == 5
+
+    # Research evidence must have been collected.
+    assert result.research_state is not None
+
+    state = result.research_state
+
+    assert state.source_count == 1
+
+    assert state.read_source_count == 1
+
+    assert state.tool_observation_count == 2
+
+def test_agent_without_controller_can_finish_directly() -> None:
+
+    llm = MockLLM(
+        responses=[
+            LLMResponse(
+                content="Direct answer."
+            )
+        ]
+    )
+
+    agent = Agent(
+        llm=llm,
+        tools=ToolRegistry(),
+    )
+
+    result = agent.run(
+        "Answer directly."
+    )
+
+    assert result.completed
+
+    assert result.answer == "Direct answer."
+
+    assert len(result.steps) == 1
+
+    assert result.research_state is not None
