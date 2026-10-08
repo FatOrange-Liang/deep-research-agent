@@ -1,0 +1,4098 @@
+{
+  "dataset": "retrieval_bilingual_v1_12_gold_audited",
+  "model": "intfloat/multilingual-e5-small",
+  "candidate_scope": "all",
+  "rrf_k": 60,
+  "num_sources": 3,
+  "num_passages": 203,
+  "num_examples": 12,
+  "num_approved_gold_passages": 21,
+  "metric_definition": "query-level Hit@1 / Hit@3 (named recall_at_1/3 for V1 compatibility); MRR of first any-gold hit",
+  "metrics": {
+    "overall": {
+      "lexical": {
+        "n": 12,
+        "recall_at_1": 0.6666666666666666,
+        "recall_at_3": 0.8333333333333334,
+        "mrr": 0.7619047619047619
+      },
+      "dense": {
+        "n": 12,
+        "recall_at_1": 0.75,
+        "recall_at_3": 0.75,
+        "mrr": 0.7794973544973546
+      },
+      "hybrid_rrf": {
+        "n": 12,
+        "recall_at_1": 0.75,
+        "recall_at_3": 0.75,
+        "mrr": 0.799404761904762
+      }
+    },
+    "by_language": {
+      "en": {
+        "lexical": {
+          "n": 6,
+          "recall_at_1": 0.8333333333333334,
+          "recall_at_3": 1.0,
+          "mrr": 0.9166666666666666
+        },
+        "dense": {
+          "n": 6,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "hybrid_rrf": {
+          "n": 6,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        }
+      },
+      "zh": {
+        "lexical": {
+          "n": 6,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.6666666666666666,
+          "mrr": 0.6071428571428571
+        },
+        "dense": {
+          "n": 6,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.5,
+          "mrr": 0.558994708994709
+        },
+        "hybrid_rrf": {
+          "n": 6,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.5,
+          "mrr": 0.5988095238095238
+        }
+      }
+    },
+    "by_topic": {
+      "Interrupts": {
+        "lexical": {
+          "n": 4,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.5,
+          "mrr": 0.5357142857142857
+        },
+        "dense": {
+          "n": 4,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.5,
+          "mrr": 0.5634920634920635
+        },
+        "hybrid_rrf": {
+          "n": 4,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.5,
+          "mrr": 0.5982142857142857
+        }
+      },
+      "Overview": {
+        "lexical": {
+          "n": 4,
+          "recall_at_1": 0.5,
+          "recall_at_3": 1.0,
+          "mrr": 0.75
+        },
+        "dense": {
+          "n": 4,
+          "recall_at_1": 0.75,
+          "recall_at_3": 0.75,
+          "mrr": 0.775
+        },
+        "hybrid_rrf": {
+          "n": 4,
+          "recall_at_1": 0.75,
+          "recall_at_3": 0.75,
+          "mrr": 0.8
+        }
+      },
+      "Persistence": {
+        "lexical": {
+          "n": 4,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "dense": {
+          "n": 4,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "hybrid_rrf": {
+          "n": 4,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        }
+      }
+    },
+    "by_topic_language": {
+      "Interrupts/en": {
+        "lexical": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "dense": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "hybrid_rrf": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        }
+      },
+      "Interrupts/zh": {
+        "lexical": {
+          "n": 2,
+          "recall_at_1": 0.0,
+          "recall_at_3": 0.0,
+          "mrr": 0.07142857142857142
+        },
+        "dense": {
+          "n": 2,
+          "recall_at_1": 0.0,
+          "recall_at_3": 0.0,
+          "mrr": 0.12698412698412698
+        },
+        "hybrid_rrf": {
+          "n": 2,
+          "recall_at_1": 0.0,
+          "recall_at_3": 0.0,
+          "mrr": 0.19642857142857142
+        }
+      },
+      "Overview/en": {
+        "lexical": {
+          "n": 2,
+          "recall_at_1": 0.5,
+          "recall_at_3": 1.0,
+          "mrr": 0.75
+        },
+        "dense": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "hybrid_rrf": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        }
+      },
+      "Overview/zh": {
+        "lexical": {
+          "n": 2,
+          "recall_at_1": 0.5,
+          "recall_at_3": 1.0,
+          "mrr": 0.75
+        },
+        "dense": {
+          "n": 2,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.5,
+          "mrr": 0.55
+        },
+        "hybrid_rrf": {
+          "n": 2,
+          "recall_at_1": 0.5,
+          "recall_at_3": 0.5,
+          "mrr": 0.6
+        }
+      },
+      "Persistence/en": {
+        "lexical": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "dense": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "hybrid_rrf": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        }
+      },
+      "Persistence/zh": {
+        "lexical": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "dense": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "hybrid_rrf": {
+          "n": 2,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        }
+      }
+    }
+  },
+  "per_example": [
+    {
+      "id": "Q001",
+      "language": "zh",
+      "topic": "Overview",
+      "claim": "LangGraph 专注于底层 Agent 编排。",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0004"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0002"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Contains agent abstractions built on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0036"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is very low-level, and focused entirely on agent orchestration .",
+            "passage_ids": [
+              "D01_P0004"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.",
+            "passage_ids": [
+              "D01_P0012"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Trusted by companies shaping the future of agents—including Klarna, Uber, J.P.",
+            "passage_ids": [
+              "D01_P0001"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangSmith Engine detects issues in your LangGraph agent traces and proposes fixes.",
+            "passage_ids": [
+              "D01_P0015"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Human-in-the-loop : Incorporate human oversight by inspecting and modifying agent state at any point.",
+            "passage_ids": [
+              "D01_P0027"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangSmith Fleet is the no-code agent builder for templates, integrations, and routine automation.",
+            "passage_ids": [
+              "D01_P0017"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Connect these docs to your agent of choice via MCP for real-time answers.",
+            "passage_ids": [
+              "D01_P0040"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Connect these docs to your agent of choice via MCP for real-time answers.",
+            "passage_ids": [
+              "D03_P0179"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Connect these docs to your agent of choice via MCP for real-time answers.",
+            "passage_ids": [
+              "D02_P0023"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Contains agent abstractions built on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0036"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.",
+            "passage_ids": [
+              "D01_P0008"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Prototype locally with LangGraph, then move to production with integrated observability and evaluation to build more reliable agent systems.",
+            "passage_ids": [
+              "D01_P0032"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph gives you fine-grained control to mix deterministic, hand-coded steps with LLM-driven agentic steps in the same graph, so you can build bespoke agents that behave exactly the way your application requires.",
+            "passage_ids": [
+              "D01_P0003"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "If you are just getting started with agents or want a higher-level abstraction, we recommend you use LangChain’s agents that provide prebuilt architectures for common LLM and tool-calling loops.",
+            "passage_ids": [
+              "D01_P0007"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.",
+            "passage_ids": [
+              "D01_P0012"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Show how LangChain products fit together Deep Agents is an agent harness : planning, subagents, filesystem tools, and context management on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0011"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Before using LangGraph, we recommend you familiarize yourself with some of the components used to build agents, starting with models and tools .",
+            "passage_ids": [
+              "D01_P0005"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangSmith Engine detects issues in your LangGraph agent traces and proposes fixes.",
+            "passage_ids": [
+              "D01_P0015"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Morgan, and more—LangGraph is a low-level orchestration framework and runtime for building, managing, and deploying long-running, stateful agents.",
+            "passage_ids": [
+              "D01_P0002"
+            ],
+            "rank": 10,
+            "is_gold": true
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Contains agent abstractions built on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0036"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.",
+            "passage_ids": [
+              "D01_P0012"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.",
+            "passage_ids": [
+              "D01_P0008"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangSmith Engine detects issues in your LangGraph agent traces and proposes fixes.",
+            "passage_ids": [
+              "D01_P0015"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is very low-level, and focused entirely on agent orchestration .",
+            "passage_ids": [
+              "D01_P0004"
+            ],
+            "rank": 5,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Prototype locally with LangGraph, then move to production with integrated observability and evaluation to build more reliable agent systems.",
+            "passage_ids": [
+              "D01_P0032"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Before using LangGraph, we recommend you familiarize yourself with some of the components used to build agents, starting with models and tools .",
+            "passage_ids": [
+              "D01_P0005"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Morgan, and more—LangGraph is a low-level orchestration framework and runtime for building, managing, and deploying long-running, stateful agents.",
+            "passage_ids": [
+              "D01_P0002"
+            ],
+            "rank": 8,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "If you are just getting started with agents or want a higher-level abstraction, we recommend you use LangChain’s agents that provide prebuilt architectures for common LLM and tool-calling loops.",
+            "passage_ids": [
+              "D01_P0007"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Show how LangChain products fit together Deep Agents is an agent harness : planning, subagents, filesystem tools, and context management on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0011"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 2,
+      "dense_rank": 10,
+      "hybrid_rrf_rank": 5
+    },
+    {
+      "id": "Q002",
+      "language": "en",
+      "topic": "Overview",
+      "claim": "LangGraph can combine deterministic hand-coded steps and LLM-driven agentic steps in one graph.",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0003"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0009"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph does not abstract prompts or architecture, and provides the following central benefits: Mix deterministic and agentic steps : Combine hand-coded, deterministic logic with LLM-driven decision-making in a single graph.",
+            "passage_ids": [
+              "D01_P0024"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph gives you fine-grained control to mix deterministic, hand-coded steps with LLM-driven agentic steps in the same graph, so you can build bespoke agents that behave exactly the way your application requires.",
+            "passage_ids": [
+              "D01_P0003"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "One of LangGraph’s core strengths is the ability to mix deterministic steps with LLM-driven agentic steps in a single graph.",
+            "passage_ids": [
+              "D01_P0009"
+            ],
+            "rank": 3,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Use deterministic steps where you need reliability and predictability, and agentic steps where you need flexibility—giving you precise control over every part of your agent’s behavior.",
+            "passage_ids": [
+              "D01_P0025"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "To improve your LLM application development, pair LangGraph with: LangSmith Observability Trace requests, evaluate outputs, and monitor deployments in one place.",
+            "passage_ids": [
+              "D01_P0031"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "h , MessagesState , START , END def mock_llm ( state : MessagesState ): return { \"messages\" : [{ \"role\" : \"ai\" , \"content\" : \"hello world\" }]} graph = StateGraph ( MessagesState ) graph . add_node ( mock_llm ) graph . add_edge ( START , \"mock_llm\" ) graph . add_edge ( \"mock_llm\" , END ) graph = graph . compile () graph . invoke ({ \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"hi!",
+            "passage_ids": [
+              "D01_P0019"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "f \"a: { answer } \" ]} def node_b ( state ): answer = interrupt ( \"question_b\" ) return { \"vals\" : [ f \"b: { answer } \" ]} graph = ( StateGraph ( State ) . add_node ( \"a\" , node_a ) . add_node ( \"b\" , node_b ) . add_edge ( START , \"a\" ) . add_edge ( START , \"b\" ) . add_edge ( \"a\" , END ) . add_edge ( \"b\" , END ) . compile ( checkpointer = InMemorySaver ()) ) config = { \"configurable\" : { \"thread_id\" : \"1\" }} # Step 1: stream events to drive the r",
+            "passage_ids": [
+              "D03_P0059"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "un; both parallel nodes hit interrupt() and pause stream = graph . stream_events ({ \"vals\" : []}, config , version = \"v3\" ) _ = stream . output # drive the stream to completion # stream.interrupts contains the pending Interrupt payloads print ( stream . interrupts ) # > (Interrupt(value='question_a', id='...'), Interrupt(value='question_b', id='...')) # Step 2: resume all pending interrupts at once resume_map = { i . id : f \"answer for { i . valu",
+            "passage_ids": [
+              "D03_P0061"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Read Frameworks, runtimes, and harnesses for a comparison of the open source stack. ​ Install pip uv pip install -U langgraph uv add langgraph Then, create a simple hello world example: from langgraph . graph import StateGraph , MessagesState , START , END def mock_llm ( state : MessagesState ): return { \"messages\" : [{ \"role\" : \"ai\" , \"content\" : \"hello world\" }]} graph = StateGraph ( MessagesState ) graph . add_node ( mock_llm ) graph . add_edg",
+            "passage_ids": [
+              "D01_P0018"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph gives you fine-grained control to mix deterministic, hand-coded steps with LLM-driven agentic steps in the same graph, so you can build bespoke agents that behave exactly the way your application requires.",
+            "passage_ids": [
+              "D01_P0003"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "One of LangGraph’s core strengths is the ability to mix deterministic steps with LLM-driven agentic steps in a single graph.",
+            "passage_ids": [
+              "D01_P0009"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph does not abstract prompts or architecture, and provides the following central benefits: Mix deterministic and agentic steps : Combine hand-coded, deterministic logic with LLM-driven decision-making in a single graph.",
+            "passage_ids": [
+              "D01_P0024"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.",
+            "passage_ids": [
+              "D01_P0008"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Prototype locally with LangGraph, then move to production with integrated observability and evaluation to build more reliable agent systems.",
+            "passage_ids": [
+              "D01_P0032"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Contains agent abstractions built on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0036"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Morgan, and more—LangGraph is a low-level orchestration framework and runtime for building, managing, and deploying long-running, stateful agents.",
+            "passage_ids": [
+              "D01_P0002"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is the orchestration runtime: durable execution, streaming, human-in-the-loop, and persistence.",
+            "passage_ids": [
+              "D01_P0013"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.",
+            "passage_ids": [
+              "D01_P0012"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "If you are just getting started with agents or want a higher-level abstraction, we recommend you use LangChain’s agents that provide prebuilt architectures for common LLM and tool-calling loops.",
+            "passage_ids": [
+              "D01_P0007"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph gives you fine-grained control to mix deterministic, hand-coded steps with LLM-driven agentic steps in the same graph, so you can build bespoke agents that behave exactly the way your application requires.",
+            "passage_ids": [
+              "D01_P0003"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph does not abstract prompts or architecture, and provides the following central benefits: Mix deterministic and agentic steps : Combine hand-coded, deterministic logic with LLM-driven decision-making in a single graph.",
+            "passage_ids": [
+              "D01_P0024"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "One of LangGraph’s core strengths is the ability to mix deterministic steps with LLM-driven agentic steps in a single graph.",
+            "passage_ids": [
+              "D01_P0009"
+            ],
+            "rank": 3,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "To improve your LLM application development, pair LangGraph with: LangSmith Observability Trace requests, evaluate outputs, and monitor deployments in one place.",
+            "passage_ids": [
+              "D01_P0031"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Use deterministic steps where you need reliability and predictability, and agentic steps where you need flexibility—giving you precise control over every part of your agent’s behavior.",
+            "passage_ids": [
+              "D01_P0025"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "h , MessagesState , START , END def mock_llm ( state : MessagesState ): return { \"messages\" : [{ \"role\" : \"ai\" , \"content\" : \"hello world\" }]} graph = StateGraph ( MessagesState ) graph . add_node ( mock_llm ) graph . add_edge ( START , \"mock_llm\" ) graph . add_edge ( \"mock_llm\" , END ) graph = graph . compile () graph . invoke ({ \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"hi!",
+            "passage_ids": [
+              "D01_P0019"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "nterrupts via stream.interrupted and read their payloads from stream.interrupts Resume execution by calling stream_events again with Command(resume=...) and repeat until stream.interrupted is false from langgraph . types import Command stream_input : dict | Command = initial_input while True : stream = graph . stream_events ( stream_input , config = config , version = \"v3\" ) # Stream LLM message chunks (including any in subgraphs) as they arrive.",
+            "passage_ids": [
+              "D03_P0050"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "f \"a: { answer } \" ]} def node_b ( state ): answer = interrupt ( \"question_b\" ) return { \"vals\" : [ f \"b: { answer } \" ]} graph = ( StateGraph ( State ) . add_node ( \"a\" , node_a ) . add_node ( \"b\" , node_b ) . add_edge ( START , \"a\" ) . add_edge ( START , \"b\" ) . add_edge ( \"a\" , END ) . add_edge ( \"b\" , END ) . compile ( checkpointer = InMemorySaver ()) ) config = { \"configurable\" : { \"thread_id\" : \"1\" }} # Step 1: stream events to drive the r",
+            "passage_ids": [
+              "D03_P0059"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "LangGraph provides two complementary persistence systems: Checkpointers persist a thread’s graph state as checkpoints.",
+            "passage_ids": [
+              "D02_P0003"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 2,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q003",
+      "language": "zh",
+      "topic": "Overview",
+      "claim": "使用 LangGraph 并不强制要求同时使用 LangChain。",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0006"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0039"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is built by LangChain Inc, the creators of LangChain, but can be used without LangChain.",
+            "passage_ids": [
+              "D01_P0039"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.",
+            "passage_ids": [
+              "D01_P0012"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Learn more LangChain Provides integrations and composable components to streamline LLM application development.",
+            "passage_ids": [
+              "D01_P0035"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "We will commonly use LangChain components throughout the documentation to integrate models and tools, but you don’t need to use LangChain to use LangGraph.",
+            "passage_ids": [
+              "D01_P0006"
+            ],
+            "rank": 4,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Show how LangChain products fit together Deep Agents is an agent harness : planning, subagents, filesystem tools, and context management on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0011"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "If you are just getting started with agents or want a higher-level abstraction, we recommend you use LangChain’s agents that provide prebuilt architectures for common LLM and tool-calling loops.",
+            "passage_ids": [
+              "D01_P0007"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "First, define a tool that uses interrupt : from langchain . tools import tool from langgraph . types import interrupt @tool def send_email ( to : str , subject : str , body : str ): \"\"\"Send an email to a recipient.\"\"\" # Pause before sending; payload surfaces on stream.interrupts when using event streaming response = interrupt ({ \"action\" : \"send_email\" , \"to\" : to , \"subject\" : subject , \"body\" : body , \"message\" : \"Approve sending this email?",
+            "passage_ids": [
+              "D03_P0086"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Full example import sqlite3 import operator from typing import TypedDict , Annotated , Literal from langchain . tools import tool from langchain_anthropic import ChatAnthropic from langgraph . checkpoint . sqlite import SqliteSaver from langgraph . graph import StateGraph , START , END from langgraph . types import Command , interrupt from langchain . messages import AnyMessage , SystemMessage , ToolMessage class AgentState ( TypedDict ): message",
+            "passage_ids": [
+              "D03_P0090"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Production-ready deployment : Deploy sophisticated agent systems confidently with scalable infrastructure designed to handle the unique challenges of stateful, long-running workflows. ​ LangGraph ecosystem While LangGraph can be used standalone, it also integrates seamlessly with any LangChain product, giving developers a full suite of tools for building agents.",
+            "passage_ids": [
+              "D01_P0030"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "eSaver from langgraph . graph import StateGraph , START , END from langgraph . types import Command , interrupt from langchain . messages import AnyMessage , SystemMessage , ToolMessage class AgentState ( TypedDict ): messages : Annotated [ list [ AnyMessage ], operator . add ] @tool def send_email ( to : str , subject : str , body : str ): \"\"\"Send an email to a recipient.\"\"\" # Pause before sending; payload surfaces on stream.interrupts when usin",
+            "passage_ids": [
+              "D03_P0091"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "We will commonly use LangChain components throughout the documentation to integrate models and tools, but you don’t need to use LangChain to use LangGraph.",
+            "passage_ids": [
+              "D01_P0006"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is built by LangChain Inc, the creators of LangChain, but can be used without LangChain.",
+            "passage_ids": [
+              "D01_P0039"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "LangGraph exposes that dictionary unchanged but does not validate resume values against it.",
+            "passage_ids": [
+              "D03_P0042"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Set LANGSMITH_TRACING=true and your API key to get started.",
+            "passage_ids": [
+              "D01_P0021"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Persistence lets LangGraph applications keep useful information beyond a single graph run.",
+            "passage_ids": [
+              "D02_P0001"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph gives you fine-grained control to mix deterministic, hand-coded steps with LLM-driven agentic steps in the same graph, so you can build bespoke agents that behave exactly the way your application requires.",
+            "passage_ids": [
+              "D01_P0003"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Avoid while True + interrupt() loops inside a single node.",
+            "passage_ids": [
+              "D03_P0105"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The graph is resumed by passing in None for the input.",
+            "passage_ids": [
+              "D03_P0171",
+              "D03_P0175"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "LangGraph converts the type to JSON Schema and includes it in Interrupt.response_schema , separately from the interrupt’s value payload.",
+            "passage_ids": [
+              "D03_P0032"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupt response schemas require langgraph>=1.2.12 .",
+            "passage_ids": [
+              "D03_P0030"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is built by LangChain Inc, the creators of LangChain, but can be used without LangChain.",
+            "passage_ids": [
+              "D01_P0039"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "We will commonly use LangChain components throughout the documentation to integrate models and tools, but you don’t need to use LangChain to use LangGraph.",
+            "passage_ids": [
+              "D01_P0006"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Full example import sqlite3 import operator from typing import TypedDict , Annotated , Literal from langchain . tools import tool from langchain_anthropic import ChatAnthropic from langgraph . checkpoint . sqlite import SqliteSaver from langgraph . graph import StateGraph , START , END from langgraph . types import Command , interrupt from langchain . messages import AnyMessage , SystemMessage , ToolMessage class AgentState ( TypedDict ): message",
+            "passage_ids": [
+              "D03_P0090"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangChain is the agent framework: abstractions and integrations for models, tools, and agent loops.",
+            "passage_ids": [
+              "D01_P0012"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "If you are just getting started with agents or want a higher-level abstraction, we recommend you use LangChain’s agents that provide prebuilt architectures for common LLM and tool-calling loops.",
+            "passage_ids": [
+              "D01_P0007"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "eSaver from langgraph . graph import StateGraph , START , END from langgraph . types import Command , interrupt from langchain . messages import AnyMessage , SystemMessage , ToolMessage class AgentState ( TypedDict ): messages : Annotated [ list [ AnyMessage ], operator . add ] @tool def send_email ( to : str , subject : str , body : str ): \"\"\"Send an email to a recipient.\"\"\" # Pause before sending; payload surfaces on stream.interrupts when usin",
+            "passage_ids": [
+              "D03_P0091"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Production-ready deployment : Deploy sophisticated agent systems confidently with scalable infrastructure designed to handle the unique challenges of stateful, long-running workflows. ​ LangGraph ecosystem While LangGraph can be used standalone, it also integrates seamlessly with any LangChain product, giving developers a full suite of tools for building agents.",
+            "passage_ids": [
+              "D01_P0030"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Learn more LangChain Provides integrations and composable components to streamline LLM application development.",
+            "passage_ids": [
+              "D01_P0035"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Show how LangChain products fit together Deep Agents is an agent harness : planning, subagents, filesystem tools, and context management on top of LangGraph.",
+            "passage_ids": [
+              "D01_P0011"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "First, define a tool that uses interrupt : from langchain . tools import tool from langgraph . types import interrupt @tool def send_email ( to : str , subject : str , body : str ): \"\"\"Send an email to a recipient.\"\"\" # Pause before sending; payload surfaces on stream.interrupts when using event streaming response = interrupt ({ \"action\" : \"send_email\" , \"to\" : to , \"subject\" : subject , \"body\" : body , \"message\" : \"Approve sending this email?",
+            "passage_ids": [
+              "D03_P0086"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q004",
+      "language": "en",
+      "topic": "Overview",
+      "claim": "LangGraph provides durable execution, streaming, and human-in-the-loop as orchestration capabilities.",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0008"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+          "passage_id": "D01_P0013"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.",
+            "passage_ids": [
+              "D01_P0008"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is the orchestration runtime: durable execution, streaming, human-in-the-loop, and persistence.",
+            "passage_ids": [
+              "D01_P0013"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "eview and edit the tool call before execution Validating human input : Pause before proceeding to the next step to validate human input ​ Stream with human-in-the-loop (HITL) interrupts When building interactive agents with human-in-the-loop workflows, you can use event streaming to consume message chunks and state snapshots concurrently while handling interrupts.",
+            "passage_ids": [
+              "D03_P0048"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "esume values when resuming multiple interrupts in a single invocation Review and edit : Let humans review and modify LLM outputs or tool calls before continuing Interrupting tool calls : Pause before executing tool calls to review and edit the tool call before execution Validating human input : Pause before proceeding to the next step to validate human input ​ Stream with human-in-the-loop (HITL) interrupts When building interactive agents with h",
+            "passage_ids": [
+              "D03_P0047"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Static interrupts are not recommended for human-in-the-loop workflows.",
+            "passage_ids": [
+              "D03_P0165"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The result is exponential re-execution of any code inside the loop body.",
+            "passage_ids": [
+              "D03_P0107"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Human-in-the-loop : Incorporate human oversight by inspecting and modifying agent state at any point.",
+            "passage_ids": [
+              "D01_P0027"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This enables human-in-the-loop patterns where you need external input to proceed.",
+            "passage_ids": [
+              "D03_P0002"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use them for short-term, thread-scoped memory, including conversation continuity, human-in-the-loop workflows, time travel, and fault tolerance.",
+            "passage_ids": [
+              "D02_P0004"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When execution resumes (after you provide the requested input), the runtime restarts the entire node from the beginning—it does not resume from the exact line where interrupt was called.",
+            "passage_ids": [
+              "D03_P0124"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is the orchestration runtime: durable execution, streaming, human-in-the-loop, and persistence.",
+            "passage_ids": [
+              "D01_P0013"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.",
+            "passage_ids": [
+              "D01_P0008"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Morgan, and more—LangGraph is a low-level orchestration framework and runtime for building, managing, and deploying long-running, stateful agents.",
+            "passage_ids": [
+              "D01_P0002"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph gives you fine-grained control to mix deterministic, hand-coded steps with LLM-driven agentic steps in the same graph, so you can build bespoke agents that behave exactly the way your application requires.",
+            "passage_ids": [
+              "D01_P0003"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "One of LangGraph’s core strengths is the ability to mix deterministic steps with LLM-driven agentic steps in a single graph.",
+            "passage_ids": [
+              "D01_P0009"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Prototype locally with LangGraph, then move to production with integrated observability and evaluation to build more reliable agent systems.",
+            "passage_ids": [
+              "D01_P0032"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangSmith is the platform for tracing, evaluation, prompts, and deployment across frameworks.",
+            "passage_ids": [
+              "D01_P0014"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When a node contains multiple interrupt calls, LangGraph keeps a list of resume values specific to the task executing the node.",
+            "passage_ids": [
+              "D03_P0131"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.",
+            "passage_ids": [
+              "D01_P0008"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "LangGraph is the orchestration runtime: durable execution, streaming, human-in-the-loop, and persistence.",
+            "passage_ids": [
+              "D01_P0013"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Human-in-the-loop : Incorporate human oversight by inspecting and modifying agent state at any point.",
+            "passage_ids": [
+              "D01_P0027"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This enables human-in-the-loop patterns where you need external input to proceed.",
+            "passage_ids": [
+              "D03_P0002"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Morgan, and more—LangGraph is a low-level orchestration framework and runtime for building, managing, and deploying long-running, stateful agents.",
+            "passage_ids": [
+              "D01_P0002"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "eview and edit the tool call before execution Validating human input : Pause before proceeding to the next step to validate human input ​ Stream with human-in-the-loop (HITL) interrupts When building interactive agents with human-in-the-loop workflows, you can use event streaming to consume message chunks and state snapshots concurrently while handling interrupts.",
+            "passage_ids": [
+              "D03_P0048"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_399cf636",
+            "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+            "quote": "Debugging with LangSmith : Gain deep visibility into complex agent behavior with visualization tools that trace execution paths, capture state transitions, and provide detailed runtime metrics.",
+            "passage_ids": [
+              "D01_P0029"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "For example, you might want to ask a human to approve an API call, a database change, or any other important decision. from typing import Literal from langgraph . types import interrupt , Command def approval_node ( state : State ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Pause execution; payload shows up on stream.interrupts (with stream_events) or result[\"__interrupt__\"] (with invoke) is_approved = interrupt ({ \"question\" : \"Do you",
+            "passage_ids": [
+              "D03_P0064"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q005",
+      "language": "zh",
+      "topic": "Persistence",
+      "claim": "Checkpointer 将线程的图状态持久化为 checkpoint。",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+          "passage_id": "D02_P0003"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0008"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "LangGraph provides two complementary persistence systems: Checkpointers persist a thread’s graph state as checkpoints.",
+            "passage_ids": [
+              "D02_P0003"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use a persistent checkpointer for production: PostgresSaver : PostgreSQL with async support SqliteSaver : Local file-based storage for development ​ Checkpoints growing unboundedly Over long conversations, checkpoints accumulate.",
+            "passage_ids": [
+              "D02_P0017"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Prune old checkpoints periodically or set a retention policy: from langgraph . checkpoint . postgres import PostgresSaver checkpointer = PostgresSaver . from_conn_string ( \"postgresql://...\" ) checkpointer . setup () # Creates tables with indexes # Consider adding a cron job to delete checkpoints older than N days ​ State access from parent graph to subgraph When a subgraph updates state, the parent graph may not see the changes immediately.",
+            "passage_ids": [
+              "D02_P0019"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "A checkpointer is required to enable breakpoints.",
+            "passage_ids": [
+              "D03_P0169"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "This is because each subgraph manages its own checkpoint namespace.",
+            "passage_ids": [
+              "D02_P0020"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "When the process restarts, all checkpoints are lost.",
+            "passage_ids": [
+              "D02_P0016"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The schema is available on interrupts returned to the caller and in checkpoint task interrupts.",
+            "passage_ids": [
+              "D03_P0033"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Reusing it resumes the same checkpoint; using a new value starts a brand-new thread with an empty state. ​ Pause using interrupt The interrupt function pauses graph execution and returns a value to the caller.",
+            "passage_ids": [
+              "D03_P0011"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "age . tool_calls : return \"tool_node\" return END builder = StateGraph ( AgentState ) builder . add_node ( \"agent\" , agent_node ) builder . add_node ( \"tool_node\" , tool_node ) builder . add_edge ( START , \"agent\" ) builder . add_conditional_edges ( \"agent\" , should_continue , [ \"tool_node\" , END ]) # Routes to \"tools\" or END builder . add_edge ( \"tool_node\" , \"agent\" ) # Loop back after tools checkpointer = SqliteSaver ( sqlite3 . connect ( \"tool",
+            "passage_ids": [
+              "D03_P0099"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Checkpointing keeps your place: the checkpointer writes the exact graph state so you can resume later, even when in an error state. thread_id is your pointer: set config={\"configurable\": {\"thread_id\": ...}} to tell the checkpointer which state to load.",
+            "passage_ids": [
+              "D03_P0008"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "LangGraph provides two complementary persistence systems: Checkpointers persist a thread’s graph state as checkpoints.",
+            "passage_ids": [
+              "D02_P0003"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "add_conditional_edges ( \"agent\" , should_continue , [ \"tool_node\" , END ]) # Routes to \"tools\" or END builder . add_edge ( \"tool_node\" , \"agent\" ) # Loop back after tools checkpointer = SqliteSaver ( sqlite3 . connect ( \"tool-approval.db\" , check_same_thread = False ) graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"email-workflow\" }} initial = graph . stream_events ( { \"messages\" : [ { \"role\"",
+            "passage_ids": [
+              "D03_P0100"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ilder . add_node ( \"collect_age\" , get_age_node ) builder . add_edge ( START , \"collect_age\" ) builder . add_conditional_edges ( \"collect_age\" , route ) checkpointer = InMemorySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream t",
+            "passage_ids": [
+              "D03_P0119"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Prune old checkpoints periodically or set a retention policy: from langgraph . checkpoint . postgres import PostgresSaver checkpointer = PostgresSaver . from_conn_string ( \"postgresql://...\" ) checkpointer . setup () # Creates tables with indexes # Consider adding a cron job to delete checkpoints older than N days ​ State access from parent graph to subgraph When a subgraph updates state, the parent graph may not see the changes immediately.",
+            "passage_ids": [
+              "D02_P0019"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "= checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream to completion print ( first . interrupts ) # -> (Interrupt(value='What is your age?",
+            "passage_ids": [
+              "D03_P0120"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Reusing it resumes the same checkpoint; using a new value starts a brand-new thread with an empty state. ​ Pause using interrupt The interrupt function pauses graph execution and returns a value to the caller.",
+            "passage_ids": [
+              "D03_P0011"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "graph . invoke ( { \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"Hi, my name is Bob.\" }]}, { \"configurable\" : { \"thread_id\" : \"thread-1\" }}, ) Agent Server handles persistence automatically When using the Agent Server , you do not need to implement or configure checkpointers or stores manually.",
+            "passage_ids": [
+              "D02_P0009"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "age . tool_calls : return \"tool_node\" return END builder = StateGraph ( AgentState ) builder . add_node ( \"agent\" , agent_node ) builder . add_node ( \"tool_node\" , tool_node ) builder . add_edge ( START , \"agent\" ) builder . add_conditional_edges ( \"agent\" , should_continue , [ \"tool_node\" , END ]) # Routes to \"tools\" or END builder . add_edge ( \"tool_node\" , \"agent\" ) # Loop back after tools checkpointer = SqliteSaver ( sqlite3 . connect ( \"tool",
+            "passage_ids": [
+              "D03_P0099"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "LangGraph provides two complementary persistence systems: Checkpointers persist a thread’s graph state as checkpoints.",
+            "passage_ids": [
+              "D02_P0003"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Prune old checkpoints periodically or set a retention policy: from langgraph . checkpoint . postgres import PostgresSaver checkpointer = PostgresSaver . from_conn_string ( \"postgresql://...\" ) checkpointer . setup () # Creates tables with indexes # Consider adding a cron job to delete checkpoints older than N days ​ State access from parent graph to subgraph When a subgraph updates state, the parent graph may not see the changes immediately.",
+            "passage_ids": [
+              "D02_P0019"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Checkpointing keeps your place: the checkpointer writes the exact graph state so you can resume later, even when in an error state. thread_id is your pointer: set config={\"configurable\": {\"thread_id\": ...}} to tell the checkpointer which state to load.",
+            "passage_ids": [
+              "D03_P0008"
+            ],
+            "rank": 3,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Reusing it resumes the same checkpoint; using a new value starts a brand-new thread with an empty state. ​ Pause using interrupt The interrupt function pauses graph execution and returns a value to the caller.",
+            "passage_ids": [
+              "D03_P0011"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use a persistent checkpointer for production: PostgresSaver : PostgreSQL with async support SqliteSaver : Local file-based storage for development ​ Checkpoints growing unboundedly Over long conversations, checkpoints accumulate.",
+            "passage_ids": [
+              "D02_P0017"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "= checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream to completion print ( first . interrupts ) # -> (Interrupt(value='What is your age?",
+            "passage_ids": [
+              "D03_P0120"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "age . tool_calls : return \"tool_node\" return END builder = StateGraph ( AgentState ) builder . add_node ( \"agent\" , agent_node ) builder . add_node ( \"tool_node\" , tool_node ) builder . add_edge ( START , \"agent\" ) builder . add_conditional_edges ( \"agent\" , should_continue , [ \"tool_node\" , END ]) # Routes to \"tools\" or END builder . add_edge ( \"tool_node\" , \"agent\" ) # Loop back after tools checkpointer = SqliteSaver ( sqlite3 . connect ( \"tool",
+            "passage_ids": [
+              "D03_P0099"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "A checkpointer is required to enable breakpoints.",
+            "passage_ids": [
+              "D03_P0169"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ilder . add_node ( \"collect_age\" , get_age_node ) builder . add_edge ( START , \"collect_age\" ) builder . add_conditional_edges ( \"collect_age\" , route ) checkpointer = InMemorySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream t",
+            "passage_ids": [
+              "D03_P0119"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q006",
+      "language": "en",
+      "topic": "Persistence",
+      "claim": "Stores persist application-defined data outside the graph state.",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+          "passage_id": "D02_P0005"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Stores persist application-defined data outside the graph state.",
+            "passage_ids": [
+              "D02_P0005"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ort Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"input\" : \"data\" }, config = config , version = \"v3\" ) # Drain the stream to drive the run; stream.output awaits the final state. final = stream . output # stream.interrupted is True when the run paused for human input, and # s",
+            "passage_ids": [
+              "D03_P0020"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use stores to persist durable data across threads.",
+            "passage_ids": [
+              "D02_P0022"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "LangGraph provides two complementary persistence systems: Checkpointers persist a thread’s graph state as checkpoints.",
+            "passage_ids": [
+              "D02_P0003"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the thread_id is stored in a column with limited length.",
+            "passage_ids": [
+              "D02_P0012"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "To make your graphs adaptable to any deployment, it’s best practice to only use values that can be reasonably serialized. ✅ Pass simple, JSON-serializable types to interrupt ✅ Pass dictionaries/objects with simple values Simple values Structured data def node_a ( state : State ): # ✅ Good: passing simple types that are serializable name = interrupt ( \"What's your name?",
+            "passage_ids": [
+              "D03_P0143"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The recommended way to drive a graph that may interrupt is event streaming — it surfaces interrupts via stream.interrupts and stream.interrupted , and exposes the final state through stream.output . from langgraph . types import Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"i",
+            "passage_ids": [
+              "D03_P0019"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "To use interrupt , you need: A checkpointer to persist the graph state (use a durable checkpointer in production) A thread ID in your config so the runtime knows which state to resume from To call interrupt() where you want to pause (payload must be JSON-serializable) from langgraph . types import interrupt def approval_node ( state : State ): # Pause and ask for approval approved = interrupt ( \"Do you approve this action?",
+            "passage_ids": [
+              "D03_P0013"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Stores persist application-defined data outside the graph state.",
+            "passage_ids": [
+              "D02_P0005"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Persistence lets LangGraph applications keep useful information beyond a single graph run.",
+            "passage_ids": [
+              "D02_P0001"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use stores to persist durable data across threads.",
+            "passage_ids": [
+              "D02_P0022"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The default graph.invoke(...) API still works and surfaces interrupts under result[\"__interrupt__\"] .",
+            "passage_ids": [
+              "D03_P0023"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "graph . invoke ( { \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"Hi, my name is Bob.\" }]}, { \"configurable\" : { \"thread_id\" : \"thread-1\" }}, ) Agent Server handles persistence automatically When using the Agent Server , you do not need to implement or configure checkpointers or stores manually.",
+            "passage_ids": [
+              "D02_P0009"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The other Command parameters ( update , goto , graph ) are designed for returning from node functions .",
+            "passage_ids": [
+              "D03_P0027"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This exception propagates up through the call stack and is caught by the runtime, which notifies the graph to save the current state and wait for external input.",
+            "passage_ids": [
+              "D03_P0123"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When a node contains multiple interrupt calls, LangGraph keeps a list of resume values specific to the task executing the node.",
+            "passage_ids": [
+              "D03_P0131"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Stores persist application-defined data outside the graph state.",
+            "passage_ids": [
+              "D02_P0005"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use stores to persist durable data across threads.",
+            "passage_ids": [
+              "D02_P0022"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Persistence lets LangGraph applications keep useful information beyond a single graph run.",
+            "passage_ids": [
+              "D02_P0001"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "LangGraph provides two complementary persistence systems: Checkpointers persist a thread’s graph state as checkpoints.",
+            "passage_ids": [
+              "D02_P0003"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "To make your graphs adaptable to any deployment, it’s best practice to only use values that can be reasonably serialized. ✅ Pass simple, JSON-serializable types to interrupt ✅ Pass dictionaries/objects with simple values Simple values Structured data def node_a ( state : State ): # ✅ Good: passing simple types that are serializable name = interrupt ( \"What's your name?",
+            "passage_ids": [
+              "D03_P0143"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This exception propagates up through the call stack and is caught by the runtime, which notifies the graph to save the current state and wait for external input.",
+            "passage_ids": [
+              "D03_P0123"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the thread_id is stored in a column with limited length.",
+            "passage_ids": [
+              "D02_P0012"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q007",
+      "language": "zh",
+      "topic": "Persistence",
+      "claim": "Store 可用于跨线程持久化长期数据。",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+          "passage_id": "D02_P0006"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+          "passage_id": "D02_P0022"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use stores to persist durable data across threads.",
+            "passage_ids": [
+              "D02_P0022"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The correct pattern: Store the re-prompt question in state (e.g. pending_question ).",
+            "passage_ids": [
+              "D03_P0108"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Stores persist application-defined data outside the graph state.",
+            "passage_ids": [
+              "D02_P0005"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use a UUID or hash if you need deterministic IDs: import uuid config = { \"configurable\" : { \"thread_id\" : str ( uuid . uuid4 ())[: 255 ]}} ​ MemorySaver does not persist between restarts MemorySaver and InMemorySaver store checkpoints in RAM.",
+            "passage_ids": [
+              "D02_P0015"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the thread_id is stored in a column with limited length.",
+            "passage_ids": [
+              "D02_P0012"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "graph . invoke ( { \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"Hi, my name is Bob.\" }]}, { \"configurable\" : { \"thread_id\" : \"thread-1\" }}, ) Agent Server handles persistence automatically When using the Agent Server , you do not need to implement or configure checkpointers or stores manually.",
+            "passage_ids": [
+              "D02_P0009"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The recommended way to drive a graph that may interrupt is event streaming — it surfaces interrupts via stream.interrupts and stream.interrupted , and exposes the final state through stream.output . from langgraph . types import Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"i",
+            "passage_ids": [
+              "D03_P0019"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ort Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"input\" : \"data\" }, config = config , version = \"v3\" ) # Drain the stream to drive the run; stream.output awaits the final state. final = stream . output # stream.interrupted is True when the run paused for human input, and # s",
+            "passage_ids": [
+              "D03_P0020"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "hort-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the t",
+            "passage_ids": [
+              "D02_P0011"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use stores to persist durable data across threads.",
+            "passage_ids": [
+              "D02_P0022"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "This can increase latency and storage costs.",
+            "passage_ids": [
+              "D02_P0018"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use a UUID or hash if you need deterministic IDs: import uuid config = { \"configurable\" : { \"thread_id\" : str ( uuid . uuid4 ())[: 255 ]}} ​ MemorySaver does not persist between restarts MemorySaver and InMemorySaver store checkpoints in RAM.",
+            "passage_ids": [
+              "D02_P0015"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Stores persist application-defined data outside the graph state.",
+            "passage_ids": [
+              "D02_P0005"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Keep thread_id values under 255 characters.",
+            "passage_ids": [
+              "D02_P0014"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use them for long-term, cross-thread memory, including user preferences, facts, and shared knowledge.",
+            "passage_ids": [
+              "D02_P0006"
+            ],
+            "rank": 8,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The thread_id you choose is effectively your persistent cursor.",
+            "passage_ids": [
+              "D03_P0010"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "graph . invoke ( { \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"Hi, my name is Bob.\" }]}, { \"configurable\" : { \"thread_id\" : \"thread-1\" }}, ) Agent Server handles persistence automatically When using the Agent Server , you do not need to implement or configure checkpointers or stores manually.",
+            "passage_ids": [
+              "D02_P0009"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use stores to persist durable data across threads.",
+            "passage_ids": [
+              "D02_P0022"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Stores persist application-defined data outside the graph state.",
+            "passage_ids": [
+              "D02_P0005"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use a UUID or hash if you need deterministic IDs: import uuid config = { \"configurable\" : { \"thread_id\" : str ( uuid . uuid4 ())[: 255 ]}} ​ MemorySaver does not persist between restarts MemorySaver and InMemorySaver store checkpoints in RAM.",
+            "passage_ids": [
+              "D02_P0015"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Use shared state via Store for data that needs to cross graph boundaries, or configure your subgraph to write to the parent checkpoint. ​ Next steps Use checkpointers to persist and inspect thread state.",
+            "passage_ids": [
+              "D02_P0021"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "graph . invoke ( { \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"Hi, my name is Bob.\" }]}, { \"configurable\" : { \"thread_id\" : \"thread-1\" }}, ) Agent Server handles persistence automatically When using the Agent Server , you do not need to implement or configure checkpointers or stores manually.",
+            "passage_ids": [
+              "D02_P0009"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The correct pattern: Store the re-prompt question in state (e.g. pending_question ).",
+            "passage_ids": [
+              "D03_P0108"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the thread_id is stored in a column with limited length.",
+            "passage_ids": [
+              "D02_P0012"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "hort-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the t",
+            "passage_ids": [
+              "D02_P0011"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ort Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"input\" : \"data\" }, config = config , version = \"v3\" ) # Drain the stream to drive the run; stream.output awaits the final state. final = stream . output # stream.interrupted is True when the run paused for human input, and # s",
+            "passage_ids": [
+              "D03_P0020"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q008",
+      "language": "en",
+      "topic": "Persistence",
+      "claim": "The documented fix for overly long thread IDs is to keep thread_id values under 255 characters.",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+          "passage_id": "D02_P0014"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Keep thread_id values under 255 characters.",
+            "passage_ids": [
+              "D02_P0014"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use a UUID or hash if you need deterministic IDs: import uuid config = { \"configurable\" : { \"thread_id\" : str ( uuid . uuid4 ())[: 255 ]}} ​ MemorySaver does not persist between restarts MemorySaver and InMemorySaver store checkpoints in RAM.",
+            "passage_ids": [
+              "D02_P0015"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "= checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream to completion print ( first . interrupts ) # -> (Interrupt(value='What is your age?",
+            "passage_ids": [
+              "D03_P0120"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Checkpointing keeps your place: the checkpointer writes the exact graph state so you can resume later, even when in an error state. thread_id is your pointer: set config={\"configurable\": {\"thread_id\": ...}} to tell the checkpointer which state to load.",
+            "passage_ids": [
+              "D03_P0008"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the thread_id is stored in a column with limited length.",
+            "passage_ids": [
+              "D02_P0012"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "InMemorySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"approval-123\" }} initial = graph . stream_events ( { \"action_details\" : \"Transfer $500\" , \"status\" : \"pending\" }, config = config , version = \"v3\" , ) _ = initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value={'question': ..., 'details': ...}),) # Resume with the decision; True ro",
+            "passage_ids": [
+              "D03_P0073"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "morySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"review-42\" }} initial = graph . stream_events ( { \"generated_text\" : \"Initial draft\" }, config = config , version = \"v3\" ) _ = initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value={'instruction': ..., 'content': ...}),) # Resume with the edited text from the reviewer final_state = gr",
+            "passage_ids": [
+              "D03_P0082"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "-approval.db\" , check_same_thread = False ) graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"email-workflow\" }} initial = graph . stream_events ( { \"messages\" : [ { \"role\" : \"user\" , \"content\" : \"Send an email to alice@example.com about the meeting\" } ] }, config = config , version = \"v3\" , ) initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value",
+            "passage_ids": [
+              "D03_P0101"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Key points about resuming: You must use the same thread ID when resuming that was used when the interrupt occurred The value passed to Command(resume=...) becomes the return value of the interrupt call The node restarts from the beginning of the node where the interrupt was called when resumed, so any code before the interrupt runs again You can pass any JSON-serializable value as the resume value, subject to validation when you specify a typed r",
+            "passage_ids": [
+              "D03_P0025"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Keep thread_id values under 255 characters.",
+            "passage_ids": [
+              "D02_P0014"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the thread_id is stored in a column with limited length.",
+            "passage_ids": [
+              "D02_P0012"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "hort-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the t",
+            "passage_ids": [
+              "D02_P0011"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use a UUID or hash if you need deterministic IDs: import uuid config = { \"configurable\" : { \"thread_id\" : str ( uuid . uuid4 ())[: 255 ]}} ​ MemorySaver does not persist between restarts MemorySaver and InMemorySaver store checkpoints in RAM.",
+            "passage_ids": [
+              "D02_P0015"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Checkpointing keeps your place: the checkpointer writes the exact graph state so you can resume later, even when in an error state. thread_id is your pointer: set config={\"configurable\": {\"thread_id\": ...}} to tell the checkpointer which state to load.",
+            "passage_ids": [
+              "D03_P0008"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "If your thread_id exceeds the column size, you will see a database error.",
+            "passage_ids": [
+              "D02_P0013"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The thread_id you choose is effectively your persistent cursor.",
+            "passage_ids": [
+              "D03_P0010"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupt response schemas require langgraph>=1.2.12 .",
+            "passage_ids": [
+              "D03_P0030"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use stores to persist durable data across threads.",
+            "passage_ids": [
+              "D02_P0022"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This exception propagates up through the call stack and is caught by the runtime, which notifies the graph to save the current state and wait for external input.",
+            "passage_ids": [
+              "D03_P0123"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Fix: Keep thread_id values under 255 characters.",
+            "passage_ids": [
+              "D02_P0014"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "Use a UUID or hash if you need deterministic IDs: import uuid config = { \"configurable\" : { \"thread_id\" : str ( uuid . uuid4 ())[: 255 ]}} ​ MemorySaver does not persist between restarts MemorySaver and InMemorySaver store checkpoints in RAM.",
+            "passage_ids": [
+              "D02_P0015"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the thread_id is stored in a column with limited length.",
+            "passage_ids": [
+              "D02_P0012"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Checkpointing keeps your place: the checkpointer writes the exact graph state so you can resume later, even when in an error state. thread_id is your pointer: set config={\"configurable\": {\"thread_id\": ...}} to tell the checkpointer which state to load.",
+            "passage_ids": [
+              "D03_P0008"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "hort-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id in graph config Read and write items from nodes or application code Full guide Checkpointers Stores ​ Troubleshooting common issues ​ PostgresSaver: thread_id too long When using PostgresSaver (or AsyncPostgresSaver ), the t",
+            "passage_ids": [
+              "D02_P0011"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "= checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream to completion print ( first . interrupts ) # -> (Interrupt(value='What is your age?",
+            "passage_ids": [
+              "D03_P0120"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The thread_id you choose is effectively your persistent cursor.",
+            "passage_ids": [
+              "D03_P0010"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "If your thread_id exceeds the column size, you will see a database error.",
+            "passage_ids": [
+              "D02_P0013"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_99e58642",
+            "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+            "quote": "The server handles persistence infrastructure behind the scenes. ​ Checkpointer vs. store Checkpointer Store Persists Graph state snapshots Application-defined key-value data Scope A single thread Across threads Memory type Short-term, thread-scoped memory Long-term, cross-thread memory Use for Conversation continuity, human-in-the-loop, time travel, and fault tolerance User preferences, facts, and shared knowledge Access pattern Pass a thread_id",
+            "passage_ids": [
+              "D02_P0010"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "InMemorySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"approval-123\" }} initial = graph . stream_events ( { \"action_details\" : \"Transfer $500\" , \"status\" : \"pending\" }, config = config , version = \"v3\" , ) _ = initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value={'question': ..., 'details': ...}),) # Resume with the decision; True ro",
+            "passage_ids": [
+              "D03_P0073"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q009",
+      "language": "zh",
+      "topic": "Interrupts",
+      "claim": "中断可以暂停图执行，并等待外部输入后再继续。",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0001"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0003"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0012"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [],
+        "dense": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This exception propagates up through the call stack and is caught by the runtime, which notifies the graph to save the current state and wait for external input.",
+            "passage_ids": [
+              "D03_P0123"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The default graph.invoke(...) API still works and surfaces interrupts under result[\"__interrupt__\"] .",
+            "passage_ids": [
+              "D03_P0023"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When execution resumes (after you provide the requested input), the runtime restarts the entire node from the beginning—it does not resume from the exact line where interrupt was called.",
+            "passage_ids": [
+              "D03_P0124"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "tate ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Pause execution; payload shows up on stream.interrupts (with stream_events) or result[\"__interrupt__\"] (with invoke) is_approved = interrupt ({ \"question\" : \"Do you want to proceed with this action?",
+            "passage_ids": [
+              "D03_P0065"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Use the interrupt function instead.",
+            "passage_ids": [
+              "D03_P0166"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 7,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupts allow you to pause graph execution at specific points and wait for external input before continuing.",
+            "passage_ids": [
+              "D03_P0001"
+            ],
+            "rank": 8,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 9,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This will run the graph until the next breakpoint is hit. config = { \"configurable\" : { \"thread_id\" : \"some_thread\" } # Run the graph until the breakpoint graph . invoke ( inputs , interrupt_before = [ \"node_a\" ], interrupt_after = [ \"node_b\" , \"node_c\" ], config = config , ) # Resume the graph graph . invoke ( None , config = config ) graph.invoke is called with the interrupt_before and interrupt_after parameters.",
+            "passage_ids": [
+              "D03_P0172"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This exception propagates up through the call stack and is caught by the runtime, which notifies the graph to save the current state and wait for external input.",
+            "passage_ids": [
+              "D03_P0123"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The default graph.invoke(...) API still works and surfaces interrupts under result[\"__interrupt__\"] .",
+            "passage_ids": [
+              "D03_P0023"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When execution resumes (after you provide the requested input), the runtime restarts the entire node from the beginning—it does not resume from the exact line where interrupt was called.",
+            "passage_ids": [
+              "D03_P0124"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "tate ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Pause execution; payload shows up on stream.interrupts (with stream_events) or result[\"__interrupt__\"] (with invoke) is_approved = interrupt ({ \"question\" : \"Do you want to proceed with this action?",
+            "passage_ids": [
+              "D03_P0065"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Use the interrupt function instead.",
+            "passage_ids": [
+              "D03_P0166"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 7,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupts allow you to pause graph execution at specific points and wait for external input before continuing.",
+            "passage_ids": [
+              "D03_P0001"
+            ],
+            "rank": 8,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 9,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This will run the graph until the next breakpoint is hit. config = { \"configurable\" : { \"thread_id\" : \"some_thread\" } # Run the graph until the breakpoint graph . invoke ( inputs , interrupt_before = [ \"node_a\" ], interrupt_after = [ \"node_b\" , \"node_c\" ], config = config , ) # Resume the graph graph . invoke ( None , config = config ) graph.invoke is called with the interrupt_before and interrupt_after parameters.",
+            "passage_ids": [
+              "D03_P0172"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": null,
+      "dense_rank": 7,
+      "hybrid_rrf_rank": 7
+    },
+    {
+      "id": "Q010",
+      "language": "en",
+      "topic": "Interrupts",
+      "claim": "When an interrupt is triggered, LangGraph saves graph state and waits for execution to resume.",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0003"
+        },
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0012"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "streaming ( graph.stream_events(..., version=\"v3\") ), or under __interrupt__ with the default invoke() API; it can be any JSON-serializable value (string, object, array, etc.) Graph waits indefinitely until you resume execution with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again",
+            "passage_ids": [
+              "D03_P0016"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ate is saved using the checkpointer so execution can be resumed later, In production, this should be a persistent checkpointer (e.g. backed by a database) Value is returned to the caller on stream.interrupts when using event streaming ( graph.stream_events(..., version=\"v3\") ), or under __interrupt__ with the default invoke() API; it can be any JSON-serializable value (string, object, array, etc.) Graph waits indefinitely until you resume executi",
+            "passage_ids": [
+              "D03_P0015"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Reusing it resumes the same checkpoint; using a new value starts a brand-new thread with an empty state. ​ Pause using interrupt The interrupt function pauses graph execution and returns a value to the caller.",
+            "passage_ids": [
+              "D03_P0011"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "on with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again with a Command that contains the resume value.",
+            "passage_ids": [
+              "D03_P0017"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Similarly, the subgraph will also resume from the beginning of the node where interrupt was called. def node_in_parent_graph ( state : State ): some_code () # <-- This will re-execute when resumed # Invoke a subgraph as a function. # The subgraph contains an `interrupt` call. subgraph_result = subgraph . invoke ( some_input ) # ... def node_in_subgraph ( state : State ): some_other_code () # <-- This will also re-execute when resumed result = int",
+            "passage_ids": [
+              "D03_P0160"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "es on stream.interrupts) edited_content = interrupt ({ \"instruction\" : \"Review and edit this content\" , \"content\" : state [ \" generated_text \" ] }) # Update the state with the edited version return { \"generated_text\" : edited_content } When resuming, provide the edited content: graph . stream_events ( Command ( resume = \"The edited and improved text\" ), # Value becomes the return from interrupt() config = config , version = \"v3\" , ). output Full",
+            "passage_ids": [
+              "D03_P0077"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "For nested subgraphs, read message chunks from stream.subgraphs[*].messages . stream.values : Full state snapshots after each step stream.interrupted / stream.interrupts : After each run, check whether the graph paused; read payloads from stream.interrupts Command(resume=...) : Pass as the next stream_events input to resume; loop until the run completes without interrupting ​ Handling multiple interrupts When parallel branches interrupt simultane",
+            "passage_ids": [
+              "D03_P0054"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When a node contains multiple interrupt calls, LangGraph keeps a list of resume values specific to the task executing the node.",
+            "passage_ids": [
+              "D03_P0131"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "To use interrupt , you need: A checkpointer to persist the graph state (use a durable checkpointer in production) A thread ID in your config so the runtime knows which state to resume from To call interrupt() where you want to pause (payload must be JSON-serializable) from langgraph . types import interrupt def approval_node ( state : State ): # Pause and ask for approval approved = interrupt ( \"Do you approve this action?",
+            "passage_ids": [
+              "D03_P0013"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Reusing it resumes the same checkpoint; using a new value starts a brand-new thread with an empty state. ​ Pause using interrupt The interrupt function pauses graph execution and returns a value to the caller.",
+            "passage_ids": [
+              "D03_P0011"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "on with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again with a Command that contains the resume value.",
+            "passage_ids": [
+              "D03_P0017"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupts allow you to pause graph execution at specific points and wait for external input before continuing.",
+            "passage_ids": [
+              "D03_P0001"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "For each interrupt encountered, LangGraph checks if a matching value exists in the task’s resume list.",
+            "passage_ids": [
+              "D03_P0133"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "streaming ( graph.stream_events(..., version=\"v3\") ), or under __interrupt__ with the default invoke() API; it can be any JSON-serializable value (string, object, array, etc.) Graph waits indefinitely until you resume execution with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again",
+            "passage_ids": [
+              "D03_P0016"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When an interrupt is triggered, LangGraph saves the graph state using its persistence layer and waits indefinitely until you resume execution.",
+            "passage_ids": [
+              "D03_P0003"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 2,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Reusing it resumes the same checkpoint; using a new value starts a brand-new thread with an empty state. ​ Pause using interrupt The interrupt function pauses graph execution and returns a value to the caller.",
+            "passage_ids": [
+              "D03_P0011"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "streaming ( graph.stream_events(..., version=\"v3\") ), or under __interrupt__ with the default invoke() API; it can be any JSON-serializable value (string, object, array, etc.) Graph waits indefinitely until you resume execution with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again",
+            "passage_ids": [
+              "D03_P0016"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "on with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again with a Command that contains the resume value.",
+            "passage_ids": [
+              "D03_P0017"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ate is saved using the checkpointer so execution can be resumed later, In production, this should be a persistent checkpointer (e.g. backed by a database) Value is returned to the caller on stream.interrupts when using event streaming ( graph.stream_events(..., version=\"v3\") ), or under __interrupt__ with the default invoke() API; it can be any JSON-serializable value (string, object, array, etc.) Graph waits indefinitely until you resume executi",
+            "passage_ids": [
+              "D03_P0015"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupts allow you to pause graph execution at specific points and wait for external input before continuing.",
+            "passage_ids": [
+              "D03_P0001"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "# -> (Interrupt(value=\"'thirty' is not a valid age...\", ...),) # Provide valid data; route() returns END and the graph finishes final = graph . stream_events ( Command ( resume = 30 ), config = config , version = \"v3\" ) print ( final . output [ \" age \" ]) # -> 30 ​ Rules of interrupts When you call interrupt within a node, LangGraph suspends execution by raising an exception that signals the runtime to pause.",
+            "passage_ids": [
+              "D03_P0122"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This exception propagates up through the call stack and is caught by the runtime, which notifies the graph to save the current state and wait for external input.",
+            "passage_ids": [
+              "D03_P0123"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q011",
+      "language": "zh",
+      "topic": "Interrupts",
+      "claim": "interrupt() 函数可以在图节点中的任意位置调用。",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0004"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Use the interrupt function instead.",
+            "passage_ids": [
+              "D03_P0166"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupt response schemas require langgraph>=1.2.12 .",
+            "passage_ids": [
+              "D03_P0030"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Static interrupts are not recommended for human-in-the-loop workflows.",
+            "passage_ids": [
+              "D03_P0165"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The schema is available on interrupts returned to the caller and in checkpoint task interrupts.",
+            "passage_ids": [
+              "D03_P0033"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Avoid while True + interrupt() loops inside a single node.",
+            "passage_ids": [
+              "D03_P0105"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "In the node, call interrupt() exactly once , passing the current question from state.",
+            "passage_ids": [
+              "D03_P0109"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupts work by calling the interrupt() function at any point in your graph nodes.",
+            "passage_ids": [
+              "D03_P0004"
+            ],
+            "rank": 7,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Static interrupts are triggered at defined points either before or after a node executes.",
+            "passage_ids": [
+              "D03_P0163"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "This means any code that ran before the interrupt will execute again.",
+            "passage_ids": [
+              "D03_P0125"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "You can set these by specifying interrupt_before and interrupt_after when compiling the graph.",
+            "passage_ids": [
+              "D03_P0164"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Use the interrupt function instead.",
+            "passage_ids": [
+              "D03_P0166"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When resuming multiple interrupts with a single invocation, map each interrupt ID to its resume value.",
+            "passage_ids": [
+              "D03_P0056"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "un; both parallel nodes hit interrupt() and pause stream = graph . stream_events ({ \"vals\" : []}, config , version = \"v3\" ) _ = stream . output # drive the stream to completion # stream.interrupts contains the pending Interrupt payloads print ( stream . interrupts ) # > (Interrupt(value='question_a', id='...'), Interrupt(value='question_b', id='...')) # Step 2: resume all pending interrupts at once resume_map = { i . id : f \"answer for { i . valu",
+            "passage_ids": [
+              "D03_P0061"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "tate ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Pause execution; payload shows up on stream.interrupts (with stream_events) or result[\"__interrupt__\"] (with invoke) is_approved = interrupt ({ \"question\" : \"Do you want to proceed with this action?",
+            "passage_ids": [
+              "D03_P0065"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "# -> (Interrupt(value=\"'thirty' is not a valid age...\", ...),) # Provide valid data; route() returns END and the graph finishes final = graph . stream_events ( Command ( resume = 30 ), config = config , version = \"v3\" ) print ( final . output [ \" age \" ]) # -> 30 ​ Rules of interrupts When you call interrupt within a node, LangGraph suspends execution by raising an exception that signals the runtime to pause.",
+            "passage_ids": [
+              "D03_P0122"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "In the node, call interrupt() exactly once , passing the current question from state.",
+            "passage_ids": [
+              "D03_P0109"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The recommended approach is to call interrupt() once per node invocation , return from the node with the error message stored in state, and use a conditional edge to loop back to the node until a valid value is provided.",
+            "passage_ids": [
+              "D03_P0104"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "To use interrupt , you need: A checkpointer to persist the graph state (use a durable checkpointer in production) A thread ID in your config so the runtime knows which state to resume from To call interrupt() where you want to pause (payload must be JSON-serializable) from langgraph . types import interrupt def approval_node ( state : State ): # Pause and ask for approval approved = interrupt ( \"Do you approve this action?",
+            "passage_ids": [
+              "D03_P0013"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupts work by calling the interrupt() function at any point in your graph nodes.",
+            "passage_ids": [
+              "D03_P0004"
+            ],
+            "rank": 9,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "ort Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"input\" : \"data\" }, config = config , version = \"v3\" ) # Drain the stream to drive the run; stream.output awaits the final state. final = stream . output # stream.interrupted is True when the run paused for human input, and # s",
+            "passage_ids": [
+              "D03_P0020"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Use the interrupt function instead.",
+            "passage_ids": [
+              "D03_P0166"
+            ],
+            "rank": 1,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "In the node, call interrupt() exactly once , passing the current question from state.",
+            "passage_ids": [
+              "D03_P0109"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When resuming multiple interrupts with a single invocation, map each interrupt ID to its resume value.",
+            "passage_ids": [
+              "D03_P0056"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Interrupts work by calling the interrupt() function at any point in your graph nodes.",
+            "passage_ids": [
+              "D03_P0004"
+            ],
+            "rank": 4,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Static interrupts are triggered at defined points either before or after a node executes.",
+            "passage_ids": [
+              "D03_P0163"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Avoid while True + interrupt() loops inside a single node.",
+            "passage_ids": [
+              "D03_P0105"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "You can set these by specifying interrupt_before and interrupt_after when compiling the graph.",
+            "passage_ids": [
+              "D03_P0164"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The default graph.invoke(...) API still works and surfaces interrupts under result[\"__interrupt__\"] .",
+            "passage_ids": [
+              "D03_P0023"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "tate ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Pause execution; payload shows up on stream.interrupts (with stream_events) or result[\"__interrupt__\"] (with invoke) is_approved = interrupt ({ \"question\" : \"Do you want to proceed with this action?",
+            "passage_ids": [
+              "D03_P0065"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The schema is available on interrupts returned to the caller and in checkpoint task interrupts.",
+            "passage_ids": [
+              "D03_P0033"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 7,
+      "dense_rank": 9,
+      "hybrid_rrf_rank": 4
+    },
+    {
+      "id": "Q012",
+      "language": "en",
+      "topic": "Interrupts",
+      "claim": "The resume value is passed back to the interrupt call, allowing the node to continue with external input.",
+      "candidate_scope": "all",
+      "candidate_source_count": 3,
+      "gold_passages": [
+        {
+          "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+          "passage_id": "D03_P0018"
+        }
+      ],
+      "top_candidates": {
+        "lexical": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The resume value is passed back to the interrupt call, allowing the node to continue execution with the external input.",
+            "passage_ids": [
+              "D03_P0018"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "on with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again with a Command that contains the resume value.",
+            "passage_ids": [
+              "D03_P0017"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "streaming ( graph.stream_events(..., version=\"v3\") ), or under __interrupt__ with the default invoke() API; it can be any JSON-serializable value (string, object, array, etc.) Graph waits indefinitely until you resume execution with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again",
+            "passage_ids": [
+              "D03_P0016"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Key points about resuming: You must use the same thread ID when resuming that was used when the interrupt occurred The value passed to Command(resume=...) becomes the return value of the interrupt call The node restarts from the beginning of the node where the interrupt was called when resumed, so any code before the interrupt runs again You can pass any JSON-serializable value as the resume value, subject to validation when you specify a typed r",
+            "passage_ids": [
+              "D03_P0025"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When a node contains multiple interrupt calls, LangGraph keeps a list of resume values specific to the task executing the node.",
+            "passage_ids": [
+              "D03_P0131"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The recommended approach is to call interrupt() once per node invocation , return from the node with the error message stored in state, and use a conditional edge to loop back to the node until a valid value is provided.",
+            "passage_ids": [
+              "D03_P0104"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Similarly, the subgraph will also resume from the beginning of the node where interrupt was called. def node_in_parent_graph ( state : State ): some_code () # <-- This will re-execute when resumed # Invoke a subgraph as a function. # The subgraph contains an `interrupt` call. subgraph_result = subgraph . invoke ( some_input ) # ... def node_in_subgraph ( state : State ): some_other_code () # <-- This will also re-execute when resumed result = int",
+            "passage_ids": [
+              "D03_P0160"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "payloads from stream.interrupts Command(resume=...) : Pass as the next stream_events input to resume; loop until the run completes without interrupting ​ Handling multiple interrupts When parallel branches interrupt simultaneously (for example, fan-out to multiple nodes that each call interrupt() ), you may need to resume multiple interrupts in a single invocation.",
+            "passage_ids": [
+              "D03_P0055"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "dense": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The resume value is passed back to the interrupt call, allowing the node to continue execution with the external input.",
+            "passage_ids": [
+              "D03_P0018"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "on with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again with a Command that contains the resume value.",
+            "passage_ids": [
+              "D03_P0017"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When a node contains multiple interrupt calls, LangGraph keeps a list of resume values specific to the task executing the node.",
+            "passage_ids": [
+              "D03_P0131"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "the beginning of the node where the interrupt was called when resumed, so any code before the interrupt runs again You can pass any JSON-serializable value as the resume value, subject to validation when you specify a typed response_schema Command(resume=...) is the only Command pattern intended as input to invoke() / stream() / stream_events() .",
+            "passage_ids": [
+              "D03_P0026"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When execution resumes (after you provide the requested input), the runtime restarts the entire node from the beginning—it does not resume from the exact line where interrupt was called.",
+            "passage_ids": [
+              "D03_P0124"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The recommended approach is to call interrupt() once per node invocation , return from the node with the error message stored in state, and use a conditional edge to loop back to the node until a valid value is provided.",
+            "passage_ids": [
+              "D03_P0104"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Key points about resuming: You must use the same thread ID when resuming that was used when the interrupt occurred The value passed to Command(resume=...) becomes the return value of the interrupt call The node restarts from the beginning of the node where the interrupt was called when resumed, so any code before the interrupt runs again You can pass any JSON-serializable value as the resume value, subject to validation when you specify a typed r",
+            "passage_ids": [
+              "D03_P0025"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Because the node re-runs from the beginning on every resume (see Rules of interrupts ), a loop that calls interrupt() multiple times causes each resume to replay all previous iterations: the first resume replays 1 iteration, the second replays 2, and so on.",
+            "passage_ids": [
+              "D03_P0106"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The other Command parameters ( update , goto , graph ) are designed for returning from node functions .",
+            "passage_ids": [
+              "D03_P0027"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ],
+        "hybrid_rrf": [
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The resume value is passed back to the interrupt call, allowing the node to continue execution with the external input.",
+            "passage_ids": [
+              "D03_P0018"
+            ],
+            "rank": 1,
+            "is_gold": true
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "on with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again with a Command that contains the resume value.",
+            "passage_ids": [
+              "D03_P0017"
+            ],
+            "rank": 2,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When a node contains multiple interrupt calls, LangGraph keeps a list of resume values specific to the task executing the node.",
+            "passage_ids": [
+              "D03_P0131"
+            ],
+            "rank": 3,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you’re ready to continue, you resume execution by re-invoking the graph using Command , which then becomes the return value of the interrupt() call from inside the node.",
+            "passage_ids": [
+              "D03_P0006"
+            ],
+            "rank": 4,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Key points about resuming: You must use the same thread ID when resuming that was used when the interrupt occurred The value passed to Command(resume=...) becomes the return value of the interrupt call The node restarts from the beginning of the node where the interrupt was called when resumed, so any code before the interrupt runs again You can pass any JSON-serializable value as the resume value, subject to validation when you specify a typed r",
+            "passage_ids": [
+              "D03_P0025"
+            ],
+            "rank": 5,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "the beginning of the node where the interrupt was called when resumed, so any code before the interrupt runs again You can pass any JSON-serializable value as the resume value, subject to validation when you specify a typed response_schema Command(resume=...) is the only Command pattern intended as input to invoke() / stream() / stream_events() .",
+            "passage_ids": [
+              "D03_P0026"
+            ],
+            "rank": 6,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "The recommended approach is to call interrupt() once per node invocation , return from the node with the error message stored in state, and use a conditional edge to loop back to the node until a valid value is provided.",
+            "passage_ids": [
+              "D03_P0104"
+            ],
+            "rank": 7,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When execution resumes (after you provide the requested input), the runtime restarts the entire node from the beginning—it does not resume from the exact line where interrupt was called.",
+            "passage_ids": [
+              "D03_P0124"
+            ],
+            "rank": 8,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "Similarly, the subgraph will also resume from the beginning of the node where interrupt was called. def node_in_parent_graph ( state : State ): some_code () # <-- This will re-execute when resumed # Invoke a subgraph as a function. # The subgraph contains an `interrupt` call. subgraph_result = subgraph . invoke ( some_input ) # ... def node_in_subgraph ( state : State ): some_other_code () # <-- This will also re-execute when resumed result = int",
+            "passage_ids": [
+              "D03_P0160"
+            ],
+            "rank": 9,
+            "is_gold": false
+          },
+          {
+            "source_id": "S_7dd57631",
+            "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+            "quote": "When you call interrupt within a node, LangGraph saves the current graph state and waits for you to resume execution with input.",
+            "passage_ids": [
+              "D03_P0012"
+            ],
+            "rank": 10,
+            "is_gold": false
+          }
+        ]
+      },
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    }
+  ],
+  "passage_index_mode": "filtered-subset"
+}
