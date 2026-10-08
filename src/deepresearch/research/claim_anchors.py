@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -19,6 +18,23 @@ ClaimAnchorStatus = Literal[
     "quote_too_short",
     "quote_not_found",
 ]
+
+
+SOURCE_MARKER = re.compile(
+    r"\[S_[^\]\s]+\]"
+)
+
+MARKDOWN_LINK = re.compile(
+    r"\[([^\]]+)\]\(([^)]+)\)"
+)
+
+BULLET_PREFIX = re.compile(
+    r"^(?:[-*+]|\d+[.)])\s+"
+)
+
+MARKDOWN_SEPARATOR = re.compile(
+    r"[-*_]{3,}"
+)
 
 
 def normalize_text(text: str) -> str:
@@ -48,19 +64,173 @@ def normalize_text(text: str) -> str:
     return text.strip().casefold()
 
 
+def plain_markdown_text(
+    text: str,
+    *,
+    remove_source_markers: bool = True,
+) -> str:
+    """
+    Convert lightweight Markdown into stable plain text for matching.
+
+    This does not rewrite content semantically. It only removes
+    presentation syntax that would otherwise make deterministic claim
+    matching brittle.
+    """
+
+    text = BULLET_PREFIX.sub(
+        "",
+        text.strip(),
+    )
+
+    # Preserve the visible label of Markdown links.
+    text = MARKDOWN_LINK.sub(
+        r"\1",
+        text,
+    )
+
+    if remove_source_markers:
+        text = SOURCE_MARKER.sub(
+            "",
+            text,
+        )
+
+    # Preserve the contents of inline code while removing backticks.
+    text = text.replace("`", "")
+
+    # Remove common emphasis syntax. Single underscores are intentionally
+    # preserved because identifiers such as thread_id are meaningful.
+    text = (
+        text
+        .replace("**", "")
+        .replace("__", "")
+        .replace("~~", "")
+    )
+
+    return normalize_text(text)
+
+
+def iter_markdown_blocks(
+    answer: str,
+) -> tuple[str, ...]:
+    """
+    Return citation-scope blocks from Markdown-like answer text.
+
+    Rules:
+    - fenced code is ignored;
+    - headings/separators are ignored;
+    - each list item is its own block;
+    - consecutive ordinary lines form one paragraph block;
+    - blank lines terminate a block.
+
+    The original text is preserved inside each returned block so citation
+    markers remain available for deterministic attribution.
+    """
+
+    blocks: list[str] = []
+    paragraph_lines: list[str] = []
+    current_bullet_lines: list[str] = []
+    inside_code_block = False
+
+    def flush_paragraph() -> None:
+        if paragraph_lines:
+            block = " ".join(
+                line.strip()
+                for line in paragraph_lines
+                if line.strip()
+            ).strip()
+            if block:
+                blocks.append(block)
+            paragraph_lines.clear()
+
+    def flush_bullet() -> None:
+        if current_bullet_lines:
+            block = " ".join(
+                line.strip()
+                for line in current_bullet_lines
+                if line.strip()
+            ).strip()
+            if block:
+                blocks.append(block)
+            current_bullet_lines.clear()
+
+    for raw_line in answer.splitlines():
+        stripped = raw_line.strip()
+
+        if (
+            stripped.startswith("```")
+            or stripped.startswith("~~~")
+        ):
+            flush_paragraph()
+            flush_bullet()
+            inside_code_block = not inside_code_block
+            continue
+
+        if inside_code_block:
+            continue
+
+        if not stripped:
+            flush_paragraph()
+            flush_bullet()
+            continue
+
+        if stripped.startswith("#"):
+            flush_paragraph()
+            flush_bullet()
+            continue
+
+        if MARKDOWN_SEPARATOR.fullmatch(
+            stripped
+        ):
+            flush_paragraph()
+            flush_bullet()
+            continue
+
+        is_bullet = bool(
+            BULLET_PREFIX.match(
+                stripped
+            )
+        )
+
+        if is_bullet:
+            flush_paragraph()
+            flush_bullet()
+            current_bullet_lines.append(
+                stripped
+            )
+            continue
+
+        # Indented/non-bullet lines directly following a bullet are treated
+        # as continuation of that bullet's citation scope.
+        if current_bullet_lines:
+            current_bullet_lines.append(
+                stripped
+            )
+            continue
+
+        paragraph_lines.append(
+            stripped
+        )
+
+    flush_paragraph()
+    flush_bullet()
+
+    return tuple(blocks)
+
+
 @dataclass(frozen=True)
 class ClaimEvidence:
     """
     A claim together with its proposed evidence.
 
-    The claim must appear in the answer with
-    the corresponding citation immediately after it.
+    The claim must appear in the answer, and the corresponding source
+    citation must occur in the same Markdown citation-scope block.
+
+    This supports common answer styles where one citation at the end of a
+    bullet/paragraph backs multiple factual sentences in that same block.
     """
 
     claim: str
-
     source_id: str
-
     evidence_quote: str
 
 
@@ -68,11 +238,11 @@ class ClaimEvidence:
 class ClaimAnchorCheck:
 
     item: ClaimEvidence
-
     status: ClaimAnchorStatus
 
     @property
     def anchored(self) -> bool:
+
         return self.status == "anchored"
 
 
@@ -84,11 +254,11 @@ class ClaimAnchorReport:
     @property
     def all_anchored(self) -> bool:
         """
-        True only when at least one claim was
-        provided and every submitted anchor passed.
+        True only when at least one claim was provided and every submitted
+        anchor passed.
 
-        This does NOT establish claim entailment
-        or complete answer coverage.
+        This does NOT establish claim entailment or complete answer
+        coverage.
         """
 
         return bool(self.checks) and all(
@@ -110,8 +280,8 @@ class ClaimAnchorVerifier:
     Deterministic claim-to-source anchor verification.
 
     Checks:
-    1. Claim appears in the final answer.
-    2. Citation is attached to that claim.
+    1. Claim appears in the final answer after Markdown normalization.
+    2. Citation occurs in the same Markdown citation-scope block.
     3. Source exists in ResearchState.
     4. Source has been read in full.
     5. Evidence quote is sufficiently specific.
@@ -142,7 +312,7 @@ class ClaimAnchorVerifier:
         items: Sequence[ClaimEvidence],
     ) -> ClaimAnchorReport:
 
-        normalized_answer = normalize_text(
+        answer_blocks = iter_markdown_blocks(
             answer
         )
 
@@ -152,7 +322,7 @@ class ClaimAnchorVerifier:
 
             status = self._check_one(
                 item=item,
-                normalized_answer=normalized_answer,
+                answer_blocks=answer_blocks,
                 state=state,
             )
 
@@ -171,40 +341,85 @@ class ClaimAnchorVerifier:
         self,
         *,
         item: ClaimEvidence,
-        normalized_answer: str,
+        answer_blocks: Sequence[str],
         state: ResearchState,
     ) -> ClaimAnchorStatus:
 
-        claim = normalize_text(
+        claim = plain_markdown_text(
             item.claim
         )
 
         source_id = item.source_id.strip()
 
         # -------------------------------------
-        # 1. Check whether claim exists
+        # 1 + 2. Claim must occur in a block
+        # carrying the requested citation.
         # -------------------------------------
 
-        if not claim or claim not in normalized_answer:
+        containing_blocks = [
+            block
+            for block in answer_blocks
+            if (
+                claim
+                and claim
+                in plain_markdown_text(
+                    block
+                )
+            )
+        ]
+
+        if not containing_blocks:
 
             return "claim_not_in_answer"
 
-        # -------------------------------------
-        # 2. Citation must be attached to claim
-        # -------------------------------------
-
-        citation_pattern = (
-            re.escape(claim)
-            + r"\s*[.!?。！？;；:]?\s*"
-            + re.escape(
-                f"[{source_id}]".casefold()
-            )
+        normalized_marker = normalize_text(
+            f"[{source_id}]"
         )
 
-        if not re.search(
-            citation_pattern,
-            normalized_answer,
-        ):
+        citation_attached = False
+
+        for block in containing_blocks:
+
+            raw_block = block.strip()
+
+            if BULLET_PREFIX.match(
+                raw_block
+            ):
+                # Within one list item, a trailing citation can scope over
+                # all factual sentences in that item.
+                if (
+                    normalized_marker
+                    in normalize_text(raw_block)
+                ):
+                    citation_attached = True
+                    break
+
+                continue
+
+            # Ordinary prose retains the original strict behavior:
+            # the citation must immediately follow the claim (allowing
+            # terminal punctuation and whitespace only).
+            comparable_block = plain_markdown_text(
+                raw_block,
+                remove_source_markers=False,
+            )
+
+            citation_pattern = (
+                re.escape(claim)
+                + r"\s*[.!?。！？;；:]?\s*"
+                + re.escape(
+                    normalized_marker
+                )
+            )
+
+            if re.search(
+                citation_pattern,
+                comparable_block,
+            ):
+                citation_attached = True
+                break
+
+        if not citation_attached:
 
             return "citation_not_attached"
 

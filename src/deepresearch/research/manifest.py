@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -10,8 +9,8 @@ from .claim_anchors import (
     ClaimAnchorCheck,
     ClaimAnchorVerifier,
     ClaimEvidence,
+    iter_markdown_blocks,
 )
-
 from .state import ResearchState
 
 
@@ -33,6 +32,35 @@ TERMINATORS = set(
     "。！？!?；;."
 )
 
+MARKDOWN_LINK = re.compile(
+    r"\[([^\]]+)\]\(([^)]+)\)"
+)
+
+PURE_MARKDOWN_LINKS = re.compile(
+    r"^(?:\s*\[[^\]]+\]\([^)]+\)\s*)+$"
+)
+
+VISIBLE_CONTENT = re.compile(
+    r"[A-Za-z0-9\u3400-\u9fff]"
+)
+
+# Presentation/meta text is not a factual claim unit.
+NON_CLAIM_PREFIXES = (
+    "我查阅了",
+    "我参考了",
+    "我搜索了",
+    "以下是",
+    "下面是",
+    "依据官方资料",
+    "根据官方资料",
+    "简言之",
+    "总之",
+    "总结来说",
+    "in short",
+    "in summary",
+    "to summarize",
+)
+
 
 @dataclass(frozen=True)
 class ClaimUnit:
@@ -44,13 +72,12 @@ class ClaimUnit:
     """
 
     claim_id: str
-
     text: str
-
     cited_source_ids: tuple[str, ...]
 
     @property
     def has_citation(self) -> bool:
+
         return bool(
             self.cited_source_ids
         )
@@ -66,9 +93,7 @@ class EvidenceProposal:
     """
 
     claim_id: str
-
     source_id: str
-
     evidence_quote: str
 
 
@@ -76,14 +101,13 @@ class EvidenceProposal:
 class ClaimManifestEntry:
 
     claim: ClaimUnit
-
     anchor_checks: tuple[ClaimAnchorCheck, ...] = ()
 
     @property
     def anchored(self) -> bool:
         """
-        True if at least one submitted source anchor
-        has passed deterministic verification.
+        True if at least one submitted source anchor has passed
+        deterministic verification.
         """
 
         return any(
@@ -96,15 +120,16 @@ class ClaimManifestEntry:
 class ClaimManifest:
 
     entries: tuple[ClaimManifestEntry, ...]
-
     rejected_proposals: tuple[EvidenceProposal, ...]
 
     @property
     def claim_count(self) -> int:
+
         return len(self.entries)
 
     @property
     def cited_claim_count(self) -> int:
+
         return sum(
             entry.claim.has_citation
             for entry in self.entries
@@ -112,6 +137,7 @@ class ClaimManifest:
 
     @property
     def anchored_claim_count(self) -> int:
+
         return sum(
             entry.anchored
             for entry in self.entries
@@ -160,8 +186,7 @@ class ClaimManifest:
     @property
     def all_claim_units_anchored(self) -> bool:
         """
-        Every extracted claim unit has at least one
-        valid evidence anchor.
+        Every extracted claim unit has at least one valid evidence anchor.
 
         This is NOT a semantic correctness judgment.
         """
@@ -177,13 +202,13 @@ class ClaimManifestBuilder:
     """
     Build a claim-level evidence manifest.
 
-    Workflow:
+    Citation attribution is Markdown-block aware:
 
-    1. Extract claim units from the final answer.
-    2. Record citation IDs attached to each unit.
-    3. Accept evidence proposals only for extracted claims.
-    4. Reuse ClaimAnchorVerifier to check proposed anchors.
-    5. Calculate citation and anchor coverage.
+    - citations directly attached to a sentence stay attached;
+    - when citations occur only in the final sentence of a bullet/paragraph,
+      those citations are inherited by earlier factual sentences in the
+      same block;
+    - citations are never propagated across block boundaries.
 
     No LLM calls are performed.
     """
@@ -210,68 +235,80 @@ class ClaimManifestBuilder:
 
         claims: list[ClaimUnit] = []
 
-        inside_code_block = False
+        for raw_block in iter_markdown_blocks(
+            answer
+        ):
+            raw_block = raw_block.strip()
 
-        for raw_line in answer.splitlines():
-
-            line = raw_line.strip()
-
-            # Ignore fenced code blocks.
-            if (
-                line.startswith("```")
-                or line.startswith("~~~")
-            ):
-                inside_code_block = (
-                    not inside_code_block
+            # A trailing citation may cover multiple factual sentences
+            # only inside one Markdown list item. Ordinary prose
+            # paragraphs keep sentence-local citation semantics so that
+            # "claim A. unrelated claim B [S_x]." does not attach S_x
+            # to claim A.
+            is_list_item = bool(
+                BULLET_PREFIX.match(
+                    raw_block
                 )
-                continue
-
-            if inside_code_block:
-                continue
-
-            if not line:
-                continue
-
-            # Ignore Markdown headings.
-            if line.startswith("#"):
-                continue
-
-            # Ignore Markdown separators.
-            if re.fullmatch(
-                r"[-*_]{3,}",
-                line,
-            ):
-                continue
-
-            # Remove Markdown list prefix.
-            line = BULLET_PREFIX.sub(
-                "",
-                line,
             )
 
-            for segment in self._split_sentences(line):
+            block = BULLET_PREFIX.sub(
+                "",
+                raw_block,
+            )
 
-                source_ids = tuple(
+            if not block:
+                continue
+
+            # Skip presentation-only lines before sentence extraction.
+            if self._is_non_claim_block(
+                block
+            ):
+                continue
+
+            segments = self._split_sentences(
+                block
+            )
+
+            if not segments:
+                continue
+
+            direct_source_ids = [
+                tuple(
                     dict.fromkeys(
                         VALID_CITATION.findall(
                             segment
                         )
                     )
                 )
+                for segment in segments
+            ]
 
-                # Keep the claim text separate
-                # from its citation markers.
+            effective_source_ids = (
+                self._apply_block_citation_scope(
+                    direct_source_ids,
+                    allow_inheritance=is_list_item,
+                )
+            )
+
+            for (
+                segment,
+                source_ids,
+            ) in zip(
+                segments,
+                effective_source_ids,
+            ):
                 claim_text = (
-                    SOURCE_MARKER.sub(
-                        "",
-                        segment,
+                    self._clean_claim_text(
+                        segment
                     )
-                    .strip()
-                    .rstrip("。！？!?；;.")
-                    .strip()
                 )
 
                 if not claim_text:
+                    continue
+
+                if self._is_non_claim_text(
+                    claim_text
+                ):
                     continue
 
                 claim_id = (
@@ -289,17 +326,162 @@ class ClaimManifestBuilder:
         return tuple(claims)
 
     @staticmethod
+    def _apply_block_citation_scope(
+        direct_source_ids: Sequence[
+            tuple[str, ...]
+        ],
+        *,
+        allow_inheritance: bool,
+    ) -> list[tuple[str, ...]]:
+        """
+        Propagate a trailing block citation only when citation ownership is
+        unambiguous.
+
+        Example:
+            sentence A. sentence B. sentence C. [S_x]
+        becomes:
+            A -> S_x
+            B -> S_x
+            C -> S_x
+
+        But if multiple segments have their own citation markers, no
+        cross-sentence inference is made.
+        """
+
+        output = list(
+            direct_source_ids
+        )
+
+        if not allow_inheritance:
+            return output
+
+        cited_indexes = [
+            index
+            for index, source_ids
+            in enumerate(
+                direct_source_ids
+            )
+            if source_ids
+        ]
+
+        if (
+            len(cited_indexes) == 1
+            and cited_indexes[0]
+            == len(direct_source_ids) - 1
+        ):
+            inherited = direct_source_ids[
+                cited_indexes[0]
+            ]
+
+            output = [
+                source_ids
+                if source_ids
+                else inherited
+                for source_ids
+                in direct_source_ids
+            ]
+
+        return output
+
+    @staticmethod
+    def _clean_claim_text(
+        segment: str,
+    ) -> str:
+        # If the segment is only one or more Markdown links plus optional
+        # source markers, it is navigation, not a factual claim.
+        without_sources = SOURCE_MARKER.sub(
+            "",
+            segment,
+        ).strip()
+
+        if PURE_MARKDOWN_LINKS.fullmatch(
+            without_sources
+        ):
+            return ""
+
+        # Preserve visible link labels but remove URLs.
+        text = MARKDOWN_LINK.sub(
+            r"\1",
+            without_sources,
+        )
+
+        text = (
+            text
+            .replace("`", "")
+            .replace("**", "")
+            .replace("__", "")
+            .replace("~~", "")
+            .strip()
+            .rstrip("。！？!?；;.")
+            .strip()
+        )
+
+        if not VISIBLE_CONTENT.search(
+            text
+        ):
+            return ""
+
+        return text
+
+    @staticmethod
+    def _is_non_claim_block(
+        block: str,
+    ) -> bool:
+        cleaned = (
+            MARKDOWN_LINK.sub(
+                r"\1",
+                SOURCE_MARKER.sub(
+                    "",
+                    block,
+                ),
+            )
+            .replace("`", "")
+            .replace("**", "")
+            .replace("__", "")
+            .replace("~~", "")
+            .strip()
+            .casefold()
+        )
+
+        return any(
+            cleaned.startswith(
+                prefix.casefold()
+            )
+            for prefix
+            in NON_CLAIM_PREFIXES
+        )
+
+    @staticmethod
+    def _is_non_claim_text(
+        text: str,
+    ) -> bool:
+        cleaned = text.strip().casefold()
+
+        if not cleaned:
+            return True
+
+        if not VISIBLE_CONTENT.search(
+            cleaned
+        ):
+            return True
+
+        return any(
+            cleaned.startswith(
+                prefix.casefold()
+            )
+            for prefix
+            in NON_CLAIM_PREFIXES
+        )
+
+    @staticmethod
     def _split_sentences(
         line: str,
     ) -> list[str]:
         """
         Conservative punctuation-based segmentation.
 
-        Citation markers immediately following terminal
-        punctuation remain attached to that sentence.
-
-        This is a heuristic segmenter, not an atomic
-        factual-claim parser.
+        Citation markers immediately following terminal punctuation remain
+        attached to that sentence.
         """
 
         segments: list[str] = []
@@ -309,8 +491,6 @@ class ClaimManifestBuilder:
 
         while index < len(line):
 
-            # Skip over citation markers so punctuation
-            # is not interpreted inside them.
             marker = SOURCE_MARKER.match(
                 line,
                 index,
@@ -326,15 +506,17 @@ class ClaimManifestBuilder:
                 index += 1
                 continue
 
-            # Avoid splitting a decimal or a dot
-            # directly inside an ordinary word.
+            # Avoid splitting a decimal or a dot directly inside an
+            # ordinary word.
             if char == ".":
 
                 next_index = index + 1
 
                 if next_index < len(line):
 
-                    next_char = line[next_index]
+                    next_char = line[
+                        next_index
+                    ]
 
                     if (
                         not next_char.isspace()
@@ -348,8 +530,8 @@ class ClaimManifestBuilder:
 
             end = index + 1
 
-            # Include citation markers appearing
-            # immediately after the sentence punctuation.
+            # Include citation markers appearing immediately after sentence
+            # punctuation.
             probe = end
 
             while probe < len(line):
@@ -360,9 +542,11 @@ class ClaimManifestBuilder:
                 ):
                     probe += 1
 
-                trailing_marker = SOURCE_MARKER.match(
-                    line,
-                    probe,
+                trailing_marker = (
+                    SOURCE_MARKER.match(
+                        line,
+                        probe,
+                    )
                 )
 
                 if trailing_marker is None:
@@ -371,18 +555,26 @@ class ClaimManifestBuilder:
                 end = trailing_marker.end()
                 probe = end
 
-            segment = line[start:end].strip()
+            segment = line[
+                start:end
+            ].strip()
 
             if segment:
-                segments.append(segment)
+                segments.append(
+                    segment
+                )
 
             start = end
             index = end
 
-        remainder = line[start:].strip()
+        remainder = line[
+            start:
+        ].strip()
 
         if remainder:
-            segments.append(remainder)
+            segments.append(
+                remainder
+            )
 
         return segments
 
@@ -396,8 +588,8 @@ class ClaimManifestBuilder:
         """
         Build the complete manifest.
 
-        Evidence proposals cannot introduce new claims
-        or silently change the claim's citation IDs.
+        Evidence proposals cannot introduce new claims or silently change
+        the claim's citation IDs.
         """
 
         claims = self.extract_claims(
@@ -417,7 +609,9 @@ class ClaimManifestBuilder:
             for claim in claims
         }
 
-        rejected: list[EvidenceProposal] = []
+        rejected: list[
+            EvidenceProposal
+        ] = []
 
         for proposal in proposals:
 
@@ -425,27 +619,19 @@ class ClaimManifestBuilder:
                 proposal.claim_id
             )
 
-            # A proposal for an unknown claim must
-            # never create an additional claim.
             if claim is None:
-
                 rejected.append(
                     proposal
                 )
-
                 continue
 
-            # Proposed source must actually be cited
-            # by the extracted claim.
             if (
                 proposal.source_id
                 not in claim.cited_source_ids
             ):
-
                 rejected.append(
                     proposal
                 )
-
                 continue
 
             evidence = ClaimEvidence(
@@ -454,10 +640,12 @@ class ClaimManifestBuilder:
                 evidence_quote=proposal.evidence_quote,
             )
 
-            anchor_report = self.verifier.verify(
-                answer=answer,
-                state=state,
-                items=[evidence],
+            anchor_report = (
+                self.verifier.verify(
+                    answer=answer,
+                    state=state,
+                    items=[evidence],
+                )
             )
 
             checks_by_claim[
