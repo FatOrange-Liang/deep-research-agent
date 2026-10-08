@@ -1,0 +1,1144 @@
+{
+  "summary": {
+    "total_passages": 203,
+    "suspicious_passages": 72,
+    "suspicious_ratio": 0.35467980295566504,
+    "reason_counts": {
+      "code_like": 70,
+      "unbalanced_quotes": 30,
+      "broken_prefix": 1
+    },
+    "duplicate_groups": 4
+  },
+  "duplicate_passage_ids": [
+    [
+      "D01_P0040",
+      "D02_P0023",
+      "D03_P0179"
+    ],
+    [
+      "D01_P0041",
+      "D02_P0024",
+      "D03_P0180"
+    ],
+    [
+      "D03_P0170",
+      "D03_P0174"
+    ],
+    [
+      "D03_P0171",
+      "D03_P0175"
+    ]
+  ],
+  "suspicious_passages": [
+    {
+      "passage_id": "D01_P0018",
+      "title": "LangGraph overview - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "text": "Read Frameworks, runtimes, and harnesses for a comparison of the open source stack. ​ Install pip uv pip install -U langgraph uv add langgraph Then, create a simple hello world example: from langgraph . graph import StateGraph , MessagesState , START , END def mock_llm ( state : MessagesState ): return { \"messages\" : [{ \"role\" : \"ai\" , \"content\" : \"hello world\" }]} graph = StateGraph ( MessagesState ) graph . add_node ( mock_llm ) graph . add_edg",
+      "length": 450,
+      "word_count": 79,
+      "code_score": 7,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D01_P0019",
+      "title": "LangGraph overview - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "text": "h , MessagesState , START , END def mock_llm ( state : MessagesState ): return { \"messages\" : [{ \"role\" : \"ai\" , \"content\" : \"hello world\" }]} graph = StateGraph ( MessagesState ) graph . add_node ( mock_llm ) graph . add_edge ( START , \"mock_llm\" ) graph . add_edge ( \"mock_llm\" , END ) graph = graph . compile () graph . invoke ({ \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"hi!",
+      "length": 383,
+      "word_count": 76,
+      "code_score": 7,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D02_P0009",
+      "title": "Persistence - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+      "text": "graph . invoke ( { \"messages\" : [{ \"role\" : \"user\" , \"content\" : \"Hi, my name is Bob.\" }]}, { \"configurable\" : { \"thread_id\" : \"thread-1\" }}, ) Agent Server handles persistence automatically When using the Agent Server , you do not need to implement or configure checkpointers or stores manually.",
+      "length": 296,
+      "word_count": 52,
+      "code_score": 3,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D02_P0015",
+      "title": "Persistence - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+      "text": "Use a UUID or hash if you need deterministic IDs: import uuid config = { \"configurable\" : { \"thread_id\" : str ( uuid . uuid4 ())[: 255 ]}} ​ MemorySaver does not persist between restarts MemorySaver and InMemorySaver store checkpoints in RAM.",
+      "length": 242,
+      "word_count": 42,
+      "code_score": 4,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D02_P0019",
+      "title": "Persistence - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+      "text": "Fix: Prune old checkpoints periodically or set a retention policy: from langgraph . checkpoint . postgres import PostgresSaver checkpointer = PostgresSaver . from_conn_string ( \"postgresql://...\" ) checkpointer . setup () # Creates tables with indexes # Consider adding a cron job to delete checkpoints older than N days ​ State access from parent graph to subgraph When a subgraph updates state, the parent graph may not see the changes immediately.",
+      "length": 450,
+      "word_count": 70,
+      "code_score": 4,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0013",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "To use interrupt , you need: A checkpointer to persist the graph state (use a durable checkpointer in production) A thread ID in your config so the runtime knows which state to resume from To call interrupt() where you want to pause (payload must be JSON-serializable) from langgraph . types import interrupt def approval_node ( state : State ): # Pause and ask for approval approved = interrupt ( \"Do you approve this action?",
+      "length": 426,
+      "word_count": 74,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0016",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "streaming ( graph.stream_events(..., version=\"v3\") ), or under __interrupt__ with the default invoke() API; it can be any JSON-serializable value (string, object, array, etc.) Graph waits indefinitely until you resume execution with a response Response is passed back into the node when you resume, becoming the return value of the interrupt() call ​ Resuming interrupts After an interrupt pauses execution, you resume the graph by invoking it again",
+      "length": 449,
+      "word_count": 67,
+      "code_score": 2,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0019",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "The recommended way to drive a graph that may interrupt is event streaming — it surfaces interrupts via stream.interrupts and stream.interrupted , and exposes the final state through stream.output . from langgraph . types import Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"i",
+      "length": 450,
+      "word_count": 74,
+      "code_score": 6,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0020",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "ort Command # Initial run - hits the interrupt and pauses # thread_id is the persistent pointer (stores a stable ID in production) config = { \"configurable\" : { \"thread_id\" : \"thread-1\" }} stream = graph . stream_events ({ \"input\" : \"data\" }, config = config , version = \"v3\" ) # Drain the stream to drive the run; stream.output awaits the final state. final = stream . output # stream.interrupted is True when the run paused for human input, and # s",
+      "length": 450,
+      "word_count": 83,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0021",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "nput\" : \"data\" }, config = config , version = \"v3\" ) # Drain the stream to drive the run; stream.output awaits the final state. final = stream . output # stream.interrupted is True when the run paused for human input, and # stream.interrupts contains the payloads passed to interrupt(). if stream . interrupted : print ( stream . interrupts ) # > (Interrupt(value='Do you approve this action?",
+      "length": 392,
+      "word_count": 68,
+      "code_score": 3,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0034",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "This example uses the approval schema from LangGraph’s interrupt tests: from typing import Any from pydantic import BaseModel from typing_extensions import TypedDict from langgraph . checkpoint . memory import InMemorySaver from langgraph . graph import START , StateGraph from langgraph . types import Command , interrupt class Decision ( BaseModel ): approved : bool note : str | None = None class State ( TypedDict ): answer : Any def node ( state",
+      "length": 450,
+      "word_count": 73,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0035",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "rom langgraph . graph import START , StateGraph from langgraph . types import Command , interrupt class Decision ( BaseModel ): approved : bool note : str | None = None class State ( TypedDict ): answer : Any def node ( state : State ) -> State : answer = interrupt ({ \"question\" : \"approve?",
+      "length": 291,
+      "word_count": 56,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0038",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "d ( resume = { \"approved\" : True }), config ) assert result [ \" answer \" ] == Decision ( approved = True ) With a typed schema, interrupt() returns the validated object: a Pydantic model instance, a dictionary for a TypedDict , or a dataclass instance.",
+      "length": 252,
+      "word_count": 48,
+      "code_score": 2,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0049",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Use the typed projections returned by graph.stream_events(..., version=\"v3\") in a loop until the run finishes: Stream AI responses token-by-token via stream.messages Observe per-step state snapshots via stream.values Detect interrupts via stream.interrupted and read their payloads from stream.interrupts Resume execution by calling stream_events again with Command(resume=...) and repeat until stream.interrupted is false from langgraph . types impo",
+      "length": 450,
+      "word_count": 56,
+      "code_score": 2,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0050",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "nterrupts via stream.interrupted and read their payloads from stream.interrupts Resume execution by calling stream_events again with Command(resume=...) and repeat until stream.interrupted is false from langgraph . types import Command stream_input : dict | Command = initial_input while True : stream = graph . stream_events ( stream_input , config = config , version = \"v3\" ) # Stream LLM message chunks (including any in subgraphs) as they arrive.",
+      "length": 450,
+      "word_count": 67,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0051",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "rt Command stream_input : dict | Command = initial_input while True : stream = graph . stream_events ( stream_input , config = config , version = \"v3\" ) # Stream LLM message chunks (including any in subgraphs) as they arrive. for message in stream . messages : for token in message . text : display_streaming_content ( token ) # After the run finishes (or pauses), check for interrupts and resume. if not stream . interrupted : final_state = stream .",
+      "length": 450,
+      "word_count": 80,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0052",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "for message in stream . messages : for token in message . text : display_streaming_content ( token ) # After the run finishes (or pauses), check for interrupts and resume. if not stream . interrupted : final_state = stream . output break interrupt_info = stream . interrupts [ 0 ]. value user_response = get_user_input ( interrupt_info ) stream_input = Command ( resume = user_response ) View example trace Open a public LangSmith run for this examp",
+      "length": 449,
+      "word_count": 76,
+      "code_score": 2,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0053",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "output break interrupt_info = stream . interrupts [ 0 ]. value user_response = get_user_input ( interrupt_info ) stream_input = Command ( resume = user_response ) View example trace Open a public LangSmith run for this example. stream.messages : Chat-model output as content blocks; iterate each message.text for token deltas.",
+      "length": 326,
+      "word_count": 49,
+      "code_score": 2,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0054",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "For nested subgraphs, read message chunks from stream.subgraphs[*].messages . stream.values : Full state snapshots after each step stream.interrupted / stream.interrupts : After each run, check whether the graph paused; read payloads from stream.interrupts Command(resume=...) : Pass as the next stream_events input to resume; loop until the run completes without interrupting ​ Handling multiple interrupts When parallel branches interrupt simultane",
+      "length": 450,
+      "word_count": 59,
+      "code_score": 2,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0057",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "This ensures each response is paired with the correct interrupt at runtime. from typing import Annotated , TypedDict import operator from langgraph . checkpoint . memory import InMemorySaver from langgraph . graph import END , START , StateGraph from langgraph . types import Command , interrupt class State ( TypedDict ): vals : Annotated [ list [ str ], operator . add ] def node_a ( state ): answer = interrupt ( \"question_a\" ) return { \"vals\" : [",
+      "length": 450,
+      "word_count": 79,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0058",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": ", START , StateGraph from langgraph . types import Command , interrupt class State ( TypedDict ): vals : Annotated [ list [ str ], operator . add ] def node_a ( state ): answer = interrupt ( \"question_a\" ) return { \"vals\" : [ f \"a: { answer } \" ]} def node_b ( state ): answer = interrupt ( \"question_b\" ) return { \"vals\" : [ f \"b: { answer } \" ]} graph = ( StateGraph ( State ) . add_node ( \"a\" , node_a ) . add_node ( \"b\" , node_b ) . add_edge ( ST",
+      "length": 450,
+      "word_count": 100,
+      "code_score": 7,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0059",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "f \"a: { answer } \" ]} def node_b ( state ): answer = interrupt ( \"question_b\" ) return { \"vals\" : [ f \"b: { answer } \" ]} graph = ( StateGraph ( State ) . add_node ( \"a\" , node_a ) . add_node ( \"b\" , node_b ) . add_edge ( START , \"a\" ) . add_edge ( START , \"b\" ) . add_edge ( \"a\" , END ) . add_edge ( \"b\" , END ) . compile ( checkpointer = InMemorySaver ()) ) config = { \"configurable\" : { \"thread_id\" : \"1\" }} # Step 1: stream events to drive the r",
+      "length": 449,
+      "word_count": 106,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0061",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "un; both parallel nodes hit interrupt() and pause stream = graph . stream_events ({ \"vals\" : []}, config , version = \"v3\" ) _ = stream . output # drive the stream to completion # stream.interrupts contains the pending Interrupt payloads print ( stream . interrupts ) # > (Interrupt(value='question_a', id='...'), Interrupt(value='question_b', id='...')) # Step 2: resume all pending interrupts at once resume_map = { i . id : f \"answer for { i . valu",
+      "length": 450,
+      "word_count": 76,
+      "code_score": 4,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0063",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "e } \" for i in stream . interrupts } resumed = graph . stream_events ( Command ( resume = resume_map ), config , version = \"v3\" ) print ( \"Final state:\" , resumed . output ) # Final state: {'vals': ['a:answer for question_a', 'b:answer for question_b']} View example trace Open a public LangSmith run for this example. ​ Approve or reject One of the most common uses of interrupts is to pause before a critical action and ask for approval.",
+      "length": 439,
+      "word_count": 81,
+      "code_score": 4,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0064",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "For example, you might want to ask a human to approve an API call, a database change, or any other important decision. from typing import Literal from langgraph . types import interrupt , Command def approval_node ( state : State ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Pause execution; payload shows up on stream.interrupts (with stream_events) or result[\"__interrupt__\"] (with invoke) is_approved = interrupt ({ \"question\" : \"Do you",
+      "length": 450,
+      "word_count": 76,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0065",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "tate ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Pause execution; payload shows up on stream.interrupts (with stream_events) or result[\"__interrupt__\"] (with invoke) is_approved = interrupt ({ \"question\" : \"Do you want to proceed with this action?",
+      "length": 259,
+      "word_count": 43,
+      "code_score": 2,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0067",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "resume the graph, pass True to approve or False to reject: # To approve graph . stream_events ( Command ( resume = True ), config = config , version = \"v3\" ). output # To reject graph . stream_events ( Command ( resume = False ), config = config , version = \"v3\" ). output Full example from typing import Literal , Optional , TypedDict from langgraph . checkpoint . memory import InMemorySaver from langgraph . graph import END , START , StateGraph",
+      "length": 448,
+      "word_count": 83,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0068",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "se ), config = config , version = \"v3\" ). output Full example from typing import Literal , Optional , TypedDict from langgraph . checkpoint . memory import InMemorySaver from langgraph . graph import END , START , StateGraph from langgraph . types import Command , interrupt class ApprovalState ( TypedDict ): action_details : str status : Optional [ Literal [ \" pending \" , \" approved \" , \" rejected \" ]] def approval_node ( state : ApprovalState )",
+      "length": 449,
+      "word_count": 80,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0069",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "from langgraph . types import Command , interrupt class ApprovalState ( TypedDict ): action_details : str status : Optional [ Literal [ \" pending \" , \" approved \" , \" rejected \" ]] def approval_node ( state : ApprovalState ) -> Command [ Literal [ \" proceed \" , \" cancel \" ]]: # Expose details so the caller can render them in a UI decision = interrupt ( { \"question\" : \"Approve this action?",
+      "length": 391,
+      "word_count": 76,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0073",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "InMemorySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"approval-123\" }} initial = graph . stream_events ( { \"action_details\" : \"Transfer $500\" , \"status\" : \"pending\" }, config = config , version = \"v3\" , ) _ = initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value={'question': ..., 'details': ...}),) # Resume with the decision; True ro",
+      "length": 450,
+      "word_count": 77,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0074",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "ding\" }, config = config , version = \"v3\" , ) _ = initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value={'question': ..., 'details': ...}),) # Resume with the decision; True routes to proceed, False to cancel resumed = graph . stream_events ( Command ( resume = True ), config = config , version = \"v3\" ) print ( resumed . output [ \" status \" ]) View example trace Open a public LangSmith run for this",
+      "length": 450,
+      "word_count": 86,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0075",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "utes to proceed, False to cancel resumed = graph . stream_events ( Command ( resume = True ), config = config , version = \"v3\" ) print ( resumed . output [ \" status \" ]) View example trace Open a public LangSmith run for this example. ​ Review and edit state Sometimes you want to let a human review and edit part of the graph state before continuing.",
+      "length": 351,
+      "word_count": 69,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0076",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "This is useful for correcting LLMs, adding missing information, or making adjustments. from langgraph . types import interrupt def review_node ( state : State ): # Pause and show the current content for review (payload surfaces on stream.interrupts) edited_content = interrupt ({ \"instruction\" : \"Review and edit this content\" , \"content\" : state [ \" generated_text \" ] }) # Update the state with the edited version return { \"generated_text\" : edited",
+      "length": 450,
+      "word_count": 72,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0077",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "es on stream.interrupts) edited_content = interrupt ({ \"instruction\" : \"Review and edit this content\" , \"content\" : state [ \" generated_text \" ] }) # Update the state with the edited version return { \"generated_text\" : edited_content } When resuming, provide the edited content: graph . stream_events ( Command ( resume = \"The edited and improved text\" ), # Value becomes the return from interrupt() config = config , version = \"v3\" , ). output Full",
+      "length": 449,
+      "word_count": 76,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0078",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "_content } When resuming, provide the edited content: graph . stream_events ( Command ( resume = \"The edited and improved text\" ), # Value becomes the return from interrupt() config = config , version = \"v3\" , ). output Full example from typing import TypedDict from langgraph . checkpoint . memory import MemorySaver from langgraph . graph import END , START , StateGraph from langgraph . types import Command , interrupt class ReviewState ( TypedDi",
+      "length": 450,
+      "word_count": 75,
+      "code_score": 7,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0079",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "example from typing import TypedDict from langgraph . checkpoint . memory import MemorySaver from langgraph . graph import END , START , StateGraph from langgraph . types import Command , interrupt class ReviewState ( TypedDict ): generated_text : str def review_node ( state : ReviewState ): # Ask a reviewer to edit the generated content updated = interrupt ( { \"instruction\" : \"Review and edit this content\" , \"content\" : state [ \" generated_text",
+      "length": 449,
+      "word_count": 74,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0080",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "ct ): generated_text : str def review_node ( state : ReviewState ): # Ask a reviewer to edit the generated content updated = interrupt ( { \"instruction\" : \"Review and edit this content\" , \"content\" : state [ \" generated_text \" ], } ) return { \"generated_text\" : updated } builder = StateGraph ( ReviewState ) builder . add_node ( \"review\" , review_node ) builder . add_edge ( START , \"review\" ) builder . add_edge ( \"review\" , END ) checkpointer = Me",
+      "length": 450,
+      "word_count": 83,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0082",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "morySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"review-42\" }} initial = graph . stream_events ( { \"generated_text\" : \"Initial draft\" }, config = config , version = \"v3\" ) _ = initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value={'instruction': ..., 'content': ...}),) # Resume with the edited text from the reviewer final_state = gr",
+      "length": 450,
+      "word_count": 77,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0083",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "sion = \"v3\" ) _ = initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value={'instruction': ..., 'content': ...}),) # Resume with the edited text from the reviewer final_state = graph . stream_events ( Command ( resume = \"Improved draft after review\" ), config = config , version = \"v3\" , ) print ( final_state . output [ \" generated_text \" ]) # -> \"Improved draft after review\" View example trace Open a",
+      "length": 449,
+      "word_count": 81,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0084",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "aph . stream_events ( Command ( resume = \"Improved draft after review\" ), config = config , version = \"v3\" , ) print ( final_state . output [ \" generated_text \" ]) # -> \"Improved draft after review\" View example trace Open a public LangSmith run for this example. ​ Interrupts in tools You can also place interrupts directly inside tool functions.",
+      "length": 347,
+      "word_count": 62,
+      "code_score": 4,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0086",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "First, define a tool that uses interrupt : from langchain . tools import tool from langgraph . types import interrupt @tool def send_email ( to : str , subject : str , body : str ): \"\"\"Send an email to a recipient.\"\"\" # Pause before sending; payload surfaces on stream.interrupts when using event streaming response = interrupt ({ \"action\" : \"send_email\" , \"to\" : to , \"subject\" : subject , \"body\" : body , \"message\" : \"Approve sending this email?",
+      "length": 447,
+      "word_count": 80,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0088",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "( \"body\" , body ) return f \"Email sent to { final_to } with subject ' { final_subject } '\" return \"Email cancelled by user\" This approach is useful when you want the approval logic to live with the tool itself, making it reusable across different parts of your graph.",
+      "length": 267,
+      "word_count": 50,
+      "code_score": 1,
+      "reasons": [
+        "broken_prefix"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0090",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Full example import sqlite3 import operator from typing import TypedDict , Annotated , Literal from langchain . tools import tool from langchain_anthropic import ChatAnthropic from langgraph . checkpoint . sqlite import SqliteSaver from langgraph . graph import StateGraph , START , END from langgraph . types import Command , interrupt from langchain . messages import AnyMessage , SystemMessage , ToolMessage class AgentState ( TypedDict ): message",
+      "length": 450,
+      "word_count": 66,
+      "code_score": 3,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0091",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "eSaver from langgraph . graph import StateGraph , START , END from langgraph . types import Command , interrupt from langchain . messages import AnyMessage , SystemMessage , ToolMessage class AgentState ( TypedDict ): messages : Annotated [ list [ AnyMessage ], operator . add ] @tool def send_email ( to : str , subject : str , body : str ): \"\"\"Send an email to a recipient.\"\"\" # Pause before sending; payload surfaces on stream.interrupts when usin",
+      "length": 450,
+      "word_count": 78,
+      "code_score": 4,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0092",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "s : Annotated [ list [ AnyMessage ], operator . add ] @tool def send_email ( to : str , subject : str , body : str ): \"\"\"Send an email to a recipient.\"\"\" # Pause before sending; payload surfaces on stream.interrupts when using event streaming response = interrupt ({ \"action\" : \"send_email\" , \"to\" : to , \"subject\" : subject , \"body\" : body , \"message\" : \"Approve sending this email?",
+      "length": 383,
+      "word_count": 72,
+      "code_score": 3,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0094",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "implementation here) print ( f \"[send_email] to= { final_to } subject= { final_subject } body= { final_body } \" ) return f \"Email sent to { final_to } \" return \"Email cancelled by user\" model = ChatAnthropic ( model = \"claude-sonnet-4-6\" ). bind_tools ([ send_email ]) tools_by_name = { \"send_email\" : send_email } def agent_node ( state : AgentState ): # LLM may decide to call the tool; interrupt pauses before sending result = model . invoke ( st",
+      "length": 449,
+      "word_count": 79,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0095",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "e-sonnet-4-6\" ). bind_tools ([ send_email ]) tools_by_name = { \"send_email\" : send_email } def agent_node ( state : AgentState ): # LLM may decide to call the tool; interrupt pauses before sending result = model . invoke ( state [ \" messages \" ]) return { \"messages\" : [ result ]} def tool_node ( state : AgentState ): \"\"\"Performs the tool call\"\"\" result = [] for tool_call in state [ \" messages \" ][ - 1 ]. tool_calls : tool = tools_by_name [ tool_c",
+      "length": 450,
+      "word_count": 84,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0096",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "ate [ \" messages \" ]) return { \"messages\" : [ result ]} def tool_node ( state : AgentState ): \"\"\"Performs the tool call\"\"\" result = [] for tool_call in state [ \" messages \" ][ - 1 ]. tool_calls : tool = tools_by_name [ tool_call [ \" name \" ]] observation = tool . invoke ( tool_call [ \" args \" ]) result . append ( ToolMessage ( content = observation , tool_call_id = tool_call [ \" id \" ])) return { \"messages\" : result } def should_continue ( state",
+      "length": 449,
+      "word_count": 91,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0097",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "all [ \" name \" ]] observation = tool . invoke ( tool_call [ \" args \" ]) result . append ( ToolMessage ( content = observation , tool_call_id = tool_call [ \" id \" ])) return { \"messages\" : result } def should_continue ( state : AgentState ) -> Literal [ \" tool_node \" , END ]: \"\"\"Decide if we should continue the loop or stop based upon whether the LLM made a tool call\"\"\" messages = state [ \" messages \" ] last_message = messages [ - 1 ] if last_mess",
+      "length": 450,
+      "word_count": 93,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0098",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": ": AgentState ) -> Literal [ \" tool_node \" , END ]: \"\"\"Decide if we should continue the loop or stop based upon whether the LLM made a tool call\"\"\" messages = state [ \" messages \" ] last_message = messages [ - 1 ] if last_message . tool_calls : return \"tool_node\" return END builder = StateGraph ( AgentState ) builder . add_node ( \"agent\" , agent_node ) builder . add_node ( \"tool_node\" , tool_node ) builder . add_edge ( START , \"agent\" ) builder .",
+      "length": 449,
+      "word_count": 86,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0099",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "age . tool_calls : return \"tool_node\" return END builder = StateGraph ( AgentState ) builder . add_node ( \"agent\" , agent_node ) builder . add_node ( \"tool_node\" , tool_node ) builder . add_edge ( START , \"agent\" ) builder . add_conditional_edges ( \"agent\" , should_continue , [ \"tool_node\" , END ]) # Routes to \"tools\" or END builder . add_edge ( \"tool_node\" , \"agent\" ) # Loop back after tools checkpointer = SqliteSaver ( sqlite3 . connect ( \"tool",
+      "length": 450,
+      "word_count": 79,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0100",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "add_conditional_edges ( \"agent\" , should_continue , [ \"tool_node\" , END ]) # Routes to \"tools\" or END builder . add_edge ( \"tool_node\" , \"agent\" ) # Loop back after tools checkpointer = SqliteSaver ( sqlite3 . connect ( \"tool-approval.db\" , check_same_thread = False ) graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"email-workflow\" }} initial = graph . stream_events ( { \"messages\" : [ { \"role\"",
+      "length": 450,
+      "word_count": 76,
+      "code_score": 7,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0101",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "-approval.db\" , check_same_thread = False ) graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"email-workflow\" }} initial = graph . stream_events ( { \"messages\" : [ { \"role\" : \"user\" , \"content\" : \"Send an email to alice@example.com about the meeting\" } ] }, config = config , version = \"v3\" , ) initial . output # drive the stream to completion print ( initial . interrupts ) # -> (Interrupt(value",
+      "length": 450,
+      "word_count": 81,
+      "code_score": 6,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0111",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Use add_conditional_edges to route back to the node until a valid value is collected. from typing import TypedDict from langgraph . graph import END , START , StateGraph from langgraph . types import interrupt class FormState ( TypedDict ): age : int | None pending_question : str | None def get_age_node ( state : FormState ): question = state . get ( \"pending_question\" ) or \"What is your age?",
+      "length": 395,
+      "word_count": 69,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0113",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Please enter a positive number.\" } def route ( state : FormState ): return END if state . get ( \"age\" ) is not None else \"collect_age\" builder = StateGraph ( FormState ) builder . add_node ( \"collect_age\" , get_age_node ) builder . add_edge ( START , \"collect_age\" ) builder . add_conditional_edges ( \"collect_age\" , route ) Each resume invokes get_age_node exactly once, runs the interrupt() call once, and exits.",
+      "length": 414,
+      "word_count": 70,
+      "code_score": 6,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0116",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Full example from typing import TypedDict from langgraph . checkpoint . memory import InMemorySaver from langgraph . graph import END , START , StateGraph from langgraph . types import Command , interrupt class FormState ( TypedDict ): age : int | None pending_question : str | None def get_age_node ( state : FormState ): question = state . get ( \"pending_question\" ) or \"What is your age?",
+      "length": 390,
+      "word_count": 67,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0118",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Please enter a positive number.\" } def route ( state : FormState ): # Loop back to collect_age until we have a valid age return END if state . get ( \"age\" ) is not None else \"collect_age\" builder = StateGraph ( FormState ) builder . add_node ( \"collect_age\" , get_age_node ) builder . add_edge ( START , \"collect_age\" ) builder . add_conditional_edges ( \"collect_age\" , route ) checkpointer = InMemorySaver () graph = builder . compile ( checkpointer",
+      "length": 450,
+      "word_count": 79,
+      "code_score": 6,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0119",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "ilder . add_node ( \"collect_age\" , get_age_node ) builder . add_edge ( START , \"collect_age\" ) builder . add_conditional_edges ( \"collect_age\" , route ) checkpointer = InMemorySaver () graph = builder . compile ( checkpointer = checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream t",
+      "length": 450,
+      "word_count": 80,
+      "code_score": 7,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0120",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "= checkpointer ) config = { \"configurable\" : { \"thread_id\" : \"form-1\" }} first = graph . stream_events ({ \"age\" : None , \"pending_question\" : None }, config = config , version = \"v3\" ) _ = first . output # drive the stream to completion print ( first . interrupts ) # -> (Interrupt(value='What is your age?",
+      "length": 306,
+      "word_count": 58,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0122",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "# -> (Interrupt(value=\"'thirty' is not a valid age...\", ...),) # Provide valid data; route() returns END and the graph finishes final = graph . stream_events ( Command ( resume = 30 ), config = config , version = \"v3\" ) print ( final . output [ \" age \" ]) # -> 30 ​ Rules of interrupts When you call interrupt within a node, LangGraph suspends execution by raising an exception that signals the runtime to pause.",
+      "length": 412,
+      "word_count": 77,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0127",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "If you wrap the interrupt call in a try/except block, you will catch this exception and the interrupt will not be passed back to the graph. ✅ Separate interrupt calls from error-prone code ✅ Use specific exception types in try/except blocks Separating logic Explicit exception handling def node_a ( state : State ): # ✅ Good: interrupting first, then handling # error conditions separately interrupt ( \"What's your name?",
+      "length": 420,
+      "word_count": 69,
+      "code_score": 1,
+      "reasons": [
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0134",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Matching is strictly index-based , so the order of interrupt calls within the node is important. ✅ Keep interrupt calls consistent across node executions def node_a ( state : State ): # ✅ Good: interrupt calls happen in the same order every time name = interrupt ( \"What's your name?",
+      "length": 283,
+      "word_count": 50,
+      "code_score": 2,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0138",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Use a conditional edge instead (see Validating human input ) Skipping interrupts Looping interrupts def node_a ( state : State ): # ❌ Bad: conditionally skipping interrupts changes the order name = interrupt ( \"What's your name?",
+      "length": 228,
+      "word_count": 37,
+      "code_score": 2,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0143",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "To make your graphs adaptable to any deployment, it’s best practice to only use values that can be reasonably serialized. ✅ Pass simple, JSON-serializable types to interrupt ✅ Pass dictionaries/objects with simple values Simple values Structured data def node_a ( state : State ): # ✅ Good: passing simple types that are serializable name = interrupt ( \"What's your name?",
+      "length": 371,
+      "word_count": 60,
+      "code_score": 2,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0146",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "s to interrupt Functions Class instances def validate_input ( value ): return len ( value ) > 0 def node_a ( state : State ): # ❌ Bad: passing a function to interrupt # The function cannot be serialized response = interrupt ({ \"question\" : \"What's your name?",
+      "length": 258,
+      "word_count": 48,
+      "code_score": 4,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0152",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "✅ Place side effects after interrupt calls ✅ Separate side effects into separate nodes when possible Idempotent operations Side effects after interrupt Separating into different nodes def node_a ( state : State ): # ✅ Good: using upsert operation which is idempotent # Running this multiple times will have the same result db . upsert_user ( user_id = state [ \" user_id \" ], status = \"pending_approval\" ) approved = interrupt ( \"Approve this change?",
+      "length": 449,
+      "word_count": 75,
+      "code_score": 3,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0156",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "user_id = state [ \" user_id \" ], status = \"approved\" ) return state 🔴 Do not perform non-idempotent operations before interrupt 🔴 Do not create new records without checking if they exist Creating records Appending to lists def node_a ( state : State ): # ❌ Bad: creating a new record before interrupt # This will create duplicate records on each resume audit_id = db . create_audit_log ({ \"user_id\" : state [ \" user_id \" ], \"action\" : \"pending_approv",
+      "length": 450,
+      "word_count": 80,
+      "code_score": 4,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0157",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "f node_a ( state : State ): # ❌ Bad: creating a new record before interrupt # This will create duplicate records on each resume audit_id = db . create_audit_log ({ \"user_id\" : state [ \" user_id \" ], \"action\" : \"pending_approval\" , \"timestamp\" : datetime . now () }) approved = interrupt ( \"Approve this change?",
+      "length": 310,
+      "word_count": 57,
+      "code_score": 2,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0160",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "Similarly, the subgraph will also resume from the beginning of the node where interrupt was called. def node_in_parent_graph ( state : State ): some_code () # <-- This will re-execute when resumed # Invoke a subgraph as a function. # The subgraph contains an `interrupt` call. subgraph_result = subgraph . invoke ( some_input ) # ... def node_in_subgraph ( state : State ): some_other_code () # <-- This will also re-execute when resumed result = int",
+      "length": 450,
+      "word_count": 76,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0161",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "ction. # The subgraph contains an `interrupt` call. subgraph_result = subgraph . invoke ( some_input ) # ... def node_in_subgraph ( state : State ): some_other_code () # <-- This will also re-execute when resumed result = interrupt ( \"What's your name?",
+      "length": 252,
+      "word_count": 42,
+      "code_score": 5,
+      "reasons": [
+        "code_like",
+        "unbalanced_quotes"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0167",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "At compile time At run time graph = builder . compile ( interrupt_before = [ \"node_a\" ], interrupt_after = [ \"node_b\" , \"node_c\" ], checkpointer = checkpointer , ) # Pass a thread ID to the graph config = { \"configurable\" : { \"thread_id\" : \"some_thread\" } # Run the graph until the breakpoint graph . invoke ( inputs , config = config ) # Resume the graph graph . invoke ( None , config = config ) The breakpoints are set during compile time. interru",
+      "length": 450,
+      "word_count": 86,
+      "code_score": 6,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    },
+    {
+      "passage_id": "D03_P0172",
+      "title": "Interrupts - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+      "text": "This will run the graph until the next breakpoint is hit. config = { \"configurable\" : { \"thread_id\" : \"some_thread\" } # Run the graph until the breakpoint graph . invoke ( inputs , interrupt_before = [ \"node_a\" ], interrupt_after = [ \"node_b\" , \"node_c\" ], config = config , ) # Resume the graph graph . invoke ( None , config = config ) graph.invoke is called with the interrupt_before and interrupt_after parameters.",
+      "length": 418,
+      "word_count": 74,
+      "code_score": 5,
+      "reasons": [
+        "code_like"
+      ],
+      "suspicious": true,
+      "quality_tier": "review",
+      "keep": true
+    }
+  ]
+}
