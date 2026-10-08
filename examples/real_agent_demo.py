@@ -23,6 +23,7 @@ from deepresearch.research import (
     EvidencePolicy,
     EvidencePolicyConfig,
     ResearchController,
+    ResearchVerifier,
 )
 
 
@@ -85,6 +86,13 @@ def main() -> None:
             min_full_pages=1,
             min_search_queries=1,
             max_recommended_reads=2,
+
+            # Source Authority Policy
+            required_hosts=(
+                "docs.langchain.com",
+            ),
+
+            min_required_host_full_pages=1,
         )
     )
 
@@ -413,6 +421,181 @@ def main() -> None:
         )
 
         return
+
+    
+    # =========================================
+    # Research Verification Pipeline
+    # =========================================
+
+    print()
+    print("=" * 70)
+    print("RESEARCH VERIFICATION REPORT")
+    print("=" * 70)
+
+    # Important:
+    # This is report-only verification.
+    #
+    # Structural verification is diagnostic.
+    # It does not block publication of an answer
+    # that already passed CitationGuard.
+    #
+    # Verify the repaired answer, not the
+    # original pre-repair Agent output.
+
+    verification_report = None
+
+    try:
+
+        verifier = ResearchVerifier()
+
+        verification_report = verifier.verify(
+            answer=guard_result.answer,
+            state=research_state,
+        )
+
+    except Exception as exc:
+
+        print(
+            "Verification pipeline error:",
+            f"{type(exc).__name__}: {exc}",
+        )
+
+        print(
+            "Structural verification is unavailable. "
+            "This does not imply that the answer "
+            "has passed structural verification."
+        )
+
+    if verification_report is not None:
+
+        report = verification_report
+
+        print()
+        print(
+            "Citation IDs valid:",
+            report.citations_valid,
+        )
+
+        print(
+            "Extracted claims:",
+            report.claim_count,
+        )
+
+        print(
+            "Evidence candidates:",
+            report.candidate_count,
+        )
+
+        print(
+            "Citation coverage:",
+            f"{report.citation_coverage:.2%}",
+        )
+
+        print(
+            "Anchor coverage:",
+            f"{report.anchor_coverage:.2%}",
+        )
+
+        print(
+            "Structural checks passed:",
+            report.structural_checks_passed,
+        )
+
+        print(
+            "Claims without retrieved evidence:",
+            report.missing_candidate_claim_ids,
+        )
+
+        # -------------------------------------
+        # Per-claim inspection
+        # -------------------------------------
+
+        print()
+        print("-" * 70)
+        print("CLAIM-LEVEL DETAILS")
+        print("-" * 70)
+
+        for entry in report.manifest.entries:
+
+            claim = entry.claim
+
+            print()
+            print(
+                f"[{claim.claim_id}] "
+                f"{claim.text}"
+            )
+
+            print(
+                "Citations:",
+                claim.cited_source_ids,
+            )
+
+            print(
+                "Anchored:",
+                entry.anchored,
+            )
+
+            # Show the evidence candidates retrieved
+            # from the already stored source text.
+
+            candidates = report.candidates.get(
+                claim.claim_id,
+                (),
+            )
+
+            if not candidates:
+
+                print(
+                    "Evidence candidates: NONE"
+                )
+
+            for index, candidate in enumerate(
+                candidates[:2],
+                start=1,
+            ):
+
+                print()
+                print(
+                    f"Candidate {index}:"
+                )
+
+                print(
+                    "Source:",
+                    candidate.source_id,
+                )
+
+                print(
+                    "Lexical score:",
+                    round(
+                        candidate.lexical_score,
+                        4,
+                    ),
+                )
+
+                print(
+                    "Evidence quote:",
+                    candidate.quote[:350],
+                )
+
+            # Print the deterministic anchor
+            # verification result.
+
+            for check in entry.anchor_checks:
+
+                print(
+                    "Anchor status:",
+                    check.status,
+                )
+
+        print()
+        print("-" * 70)
+
+        print(
+            "Note: Anchor coverage measures "
+            "traceable text matches, not "
+            "semantic factual correctness."
+        )
+
 
     # =========================================
     # 15. Final Answer

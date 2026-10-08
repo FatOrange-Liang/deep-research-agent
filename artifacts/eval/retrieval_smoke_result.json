@@ -1,0 +1,91 @@
+{
+  "dataset": "bilingual_retrieval_smoke_v1",
+  "model": "intfloat/multilingual-e5-small",
+  "num_examples": 8,
+  "metrics": {
+    "lexical": {
+      "n": 8,
+      "recall_at_1": 0.5,
+      "recall_at_3": 0.5,
+      "mrr": 0.5
+    },
+    "dense": {
+      "n": 8,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0
+    },
+    "hybrid_rrf": {
+      "n": 8,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0
+    }
+  },
+  "per_example": [
+    {
+      "id": "Q001",
+      "claim": "检查点可以持久化图的状态",
+      "gold_source_id": "S_b352578b",
+      "lexical_rank": null,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q002",
+      "claim": "Interrupts allow a human to review and resume execution",
+      "gold_source_id": "S_b352578b",
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q003",
+      "claim": "线程标识符可以组织持久化对话",
+      "gold_source_id": "S_b352578b",
+      "lexical_rank": null,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q004",
+      "claim": "Streaming exposes intermediate execution updates",
+      "gold_source_id": "S_b352578b",
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q005",
+      "claim": "工具注册表保存可调用工具及其输入模式",
+      "gold_source_id": "S_812c5f58",
+      "lexical_rank": null,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q006",
+      "claim": "The agent runtime adds tool results to message history",
+      "gold_source_id": "S_812c5f58",
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q007",
+      "claim": "引用验证器能够发现证据库中不存在的来源标识符",
+      "gold_source_id": "S_812c5f58",
+      "lexical_rank": null,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    },
+    {
+      "id": "Q008",
+      "claim": "Evidence retrieval selects passages from stored webpage content",
+      "gold_source_id": "S_812c5f58",
+      "lexical_rank": 1,
+      "dense_rank": 1,
+      "hybrid_rrf_rank": 1
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+
+{
+  "name": "bilingual_retrieval_smoke_v1",
+  "description": "Synthetic smoke dataset for validating retrieval evaluation code.",
+  "sources": [
+    {
+      "title": "Synthetic Graph Research Document",
+      "url": "https://example.org/synthetic-graph",
+      "content": "A checkpointer persists graph state after each execution step.\nInterrupts pause execution so a human can review and resume.\nThread identifiers group consecutive runs into a persistent conversation.\nStreaming can expose intermediate updates to a client."
+    },
+    {
+      "title": "Synthetic Agent Research Document",
+      "url": "https://example.org/synthetic-agent",
+      "content": "A tool registry stores callable tools and their input schemas.\nThe agent runtime places tool results into its message history.\nA citation validator detects identifiers not present in the evidence store.\nEvidence retrieval selects candidate passages from stored page content."
+    }
+  ],
+  "examples": [
+    {
+      "id": "Q001",
+      "claim": "检查点可以持久化图的状态",
+      "cited_urls": [
+          "https://example.org/synthetic-graph",
+          "https://example.org/synthetic-agent"
+      ],
+      "gold_url": "https://example.org/synthetic-graph",
+      "gold_quote": "A checkpointer persists graph state after each execution step."
+    },
+    {
+      "id": "Q002",
+      "claim": "Interrupts allow a human to review and resume execution",
+      "cited_urls": [
+        "https://example.org/synthetic-graph"
+      ],
+      "gold_url": "https://example.org/synthetic-graph",
+      "gold_quote": "Interrupts pause execution so a human can review and resume."
+    },
+    {
+      "id": "Q003",
+      "claim": "线程标识符可以组织持久化对话",
+      "cited_urls": [
+        "https://example.org/synthetic-graph"
+      ],
+      "gold_url": "https://example.org/synthetic-graph",
+      "gold_quote": "Thread identifiers group consecutive runs into a persistent conversation."
+    },
+    {
+      "id": "Q004",
+      "claim": "Streaming exposes intermediate execution updates",
+      "cited_urls": [
+        "https://example.org/synthetic-graph"
+      ],
+      "gold_url": "https://example.org/synthetic-graph",
+      "gold_quote": "Streaming can expose intermediate updates to a client."
+    },
+    {
+      "id": "Q005",
+      "claim": "工具注册表保存可调用工具及其输入模式",
+      "cited_urls": [
+        "https://example.org/synthetic-agent"
+      ],
+      "gold_url": "https://example.org/synthetic-agent",
+      "gold_quote": "A tool registry stores callable tools and their input schemas."
+    },
+    {
+      "id": "Q006",
+      "claim": "The agent runtime adds tool results to message history",
+      "cited_urls": [
+        "https://example.org/synthetic-agent"
+      ],
+      "gold_url": "https://example.org/synthetic-agent",
+      "gold_quote": "The agent runtime places tool results into its message history."
+    },
+    {
+      "id": "Q007",
+      "claim": "引用验证器能够发现证据库中不存在的来源标识符",
+      "cited_urls": [
+        "https://example.org/synthetic-agent"
+      ],
+      "gold_url": "https://example.org/synthetic-agent",
+      "gold_quote": "A citation validator detects identifiers not present in the evidence store."
+    },
+    {
+      "id": "Q008",
+      "claim": "Evidence retrieval selects passages from stored webpage content",
+      "cited_urls": [
+        "https://example.org/synthetic-agent"
+      ],
+      "gold_url": "https://example.org/synthetic-agent",
+      "gold_quote": "Evidence retrieval selects candidate passages from stored page content."
+    }
+  ]
+}

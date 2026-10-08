@@ -33,6 +33,40 @@ from .controller import (
     ResearchController,
 )
 
+from .authority import SourceAuthorityPolicy
+
+from .claim_anchors import (
+    ClaimEvidence,
+    ClaimAnchorCheck,
+    ClaimAnchorReport,
+    ClaimAnchorVerifier,
+)
+
+from .manifest import (
+    ClaimUnit,
+    EvidenceProposal,
+    ClaimManifestEntry,
+    ClaimManifest,
+    ClaimManifestBuilder,
+)
+
+from .retriever import (
+    EvidenceCandidate,
+    EvidenceCandidateRetriever,
+)
+
+from .verification import (
+    ResearchVerifier,
+    ResearchVerificationReport,
+)
+
+from .dense_retriever import (
+    EmbeddingBackend,
+    MultilingualE5Embedder,
+    DenseEvidenceCandidate,
+    DenseEvidenceRetriever,
+)
+
 __all__ = [
     "Source",
     "make_source_id",
@@ -51,4 +85,22 @@ __all__ = [
     "EvidencePolicyConfig",
     "ResearchControl",
     "ResearchController",
+    "SourceAuthorityPolicy",
+    "ClaimEvidence",
+    "ClaimAnchorCheck",
+    "ClaimAnchorReport",
+    "ClaimAnchorVerifier",
+    "ClaimUnit",
+    "EvidenceProposal",
+    "ClaimManifestEntry",
+    "ClaimManifest",
+    "ClaimManifestBuilder",
+    "EvidenceCandidate",
+    "EvidenceCandidateRetriever",
+    "ResearchVerifier",
+    "ResearchVerificationReport",
+    "EmbeddingBackend",
+    "MultilingualE5Embedder",
+    "DenseEvidenceCandidate",
+    "DenseEvidenceRetriever",
 ]
