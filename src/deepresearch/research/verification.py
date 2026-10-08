@@ -1,24 +1,53 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Protocol, Sequence
 
 from .citations import (
     CitationValidation,
     validate_citations,
 )
-
 from .manifest import (
     ClaimManifest,
     ClaimManifestBuilder,
+    ClaimUnit,
+    EvidenceProposal,
 )
-
-from .retriever import (
-    EvidenceCandidate,
-    EvidenceCandidateRetriever,
-)
-
+from .retriever import EvidenceCandidateRetriever
 from .state import ResearchState
+
+
+class EvidenceCandidateLike(Protocol):
+    """
+    Minimal interface required by ResearchVerifier.
+
+    Lexical, dense, hybrid, and reranked candidates can all satisfy this
+    protocol without forcing them into one concrete dataclass.
+    """
+
+    claim_id: str
+    source_id: str
+    quote: str
+
+    def to_proposal(self) -> EvidenceProposal:
+        ...
+
+
+class EvidenceRetriever(Protocol):
+    """
+    Pluggable retrieval interface used by ResearchVerifier.
+    """
+
+    def retrieve(
+        self,
+        *,
+        claims: Sequence[ClaimUnit],
+        state: ResearchState,
+    ) -> dict[
+        str,
+        tuple[EvidenceCandidateLike, ...],
+    ]:
+        ...
 
 
 @dataclass(frozen=True)
@@ -26,34 +55,31 @@ class ResearchVerificationReport:
     """
     Complete deterministic structural verification report.
 
-    This report checks citation validity, extracted claim
-    coverage, and evidence anchor coverage.
+    This report checks citation validity, extracted claim coverage,
+    and evidence anchor coverage.
 
-    It does NOT establish semantic entailment.
+    A semantic reranker may improve candidate ordering, but this report
+    still does NOT establish semantic entailment.
     """
 
     citation_validation: CitationValidation
-
     manifest: ClaimManifest
 
     candidates: dict[
         str,
-        tuple[EvidenceCandidate, ...],
+        tuple[EvidenceCandidateLike, ...],
     ]
 
     @property
     def citations_valid(self) -> bool:
-
         return self.citation_validation.is_valid
 
     @property
     def claim_count(self) -> int:
-
         return self.manifest.claim_count
 
     @property
     def candidate_count(self) -> int:
-
         return sum(
             len(items)
             for items in self.candidates.values()
@@ -61,19 +87,16 @@ class ResearchVerificationReport:
 
     @property
     def citation_coverage(self) -> float:
-
         return self.manifest.citation_coverage
 
     @property
     def anchor_coverage(self) -> float:
-
         return self.manifest.anchor_coverage
 
     @property
     def missing_candidate_claim_ids(
         self,
     ) -> tuple[str, ...]:
-
         return tuple(
             entry.claim.claim_id
             for entry in self.manifest.entries
@@ -85,13 +108,12 @@ class ResearchVerificationReport:
     @property
     def structural_checks_passed(self) -> bool:
         """
-        All extracted claim units have citations and
-        at least one genuine source-text anchor.
+        All extracted claim units have citations and at least one genuine
+        source-text anchor.
 
-        This does not mean the claims are factually
-        supported by those excerpts.
+        This does not mean the claims are factually supported by those
+        excerpts.
         """
-
         return (
             self.citations_valid
             and self.claim_count > 0
@@ -102,7 +124,7 @@ class ResearchVerificationReport:
 
 class ResearchVerifier:
     """
-    Compose the existing structural verification modules.
+    Compose structural verification modules with a pluggable retriever.
 
     Pipeline:
 
@@ -116,6 +138,7 @@ class ResearchVerifier:
              |
              v
        Evidence Retrieval
+       (lexical by default; hybrid/reranked optional)
              |
              v
        Evidence Proposals
@@ -126,23 +149,23 @@ class ResearchVerifier:
              v
        Verification Report
 
-    No LLM or external API is required.
+    The default remains EvidenceCandidateRetriever for backwards
+    compatibility. No external API is required by the default path.
     """
 
     def __init__(
         self,
         *,
         manifest_builder: ClaimManifestBuilder | None = None,
-        retriever: EvidenceCandidateRetriever | None = None,
+        retriever: EvidenceRetriever | None = None,
     ) -> None:
-
         self.manifest_builder = (
             manifest_builder
             if manifest_builder is not None
             else ClaimManifestBuilder()
         )
 
-        self.retriever = (
+        self.retriever: EvidenceRetriever = (
             retriever
             if retriever is not None
             else EvidenceCandidateRetriever()
@@ -154,24 +177,15 @@ class ResearchVerifier:
         answer: str,
         state: ResearchState,
     ) -> ResearchVerificationReport:
-
         if not isinstance(answer, str):
             raise TypeError(
                 "'answer' must be a string."
             )
 
-        # =====================================
-        # Stage 1: Citation validation
-        # =====================================
-
         citation_validation = validate_citations(
             answer,
             state.citation_sources,
         )
-
-        # =====================================
-        # Stage 2: Extract all claim units
-        # =====================================
 
         claims = (
             self.manifest_builder.extract_claims(
@@ -179,19 +193,10 @@ class ResearchVerifier:
             )
         )
 
-        # =====================================
-        # Stage 3: Retrieve candidate evidence
-        # =====================================
-
         candidates = self.retriever.retrieve(
             claims=claims,
             state=state,
         )
-
-        # =====================================
-        # Stage 4: Convert candidates into
-        # EvidenceProposal objects
-        # =====================================
 
         proposals = [
             candidate.to_proposal()
@@ -199,19 +204,11 @@ class ResearchVerifier:
             for candidate in candidate_list
         ]
 
-        # =====================================
-        # Stage 5: Build verified manifest
-        # =====================================
-
         manifest = self.manifest_builder.build(
             answer=answer,
             state=state,
             proposals=proposals,
         )
-
-        # =====================================
-        # Stage 6: Return structured report
-        # =====================================
 
         return ResearchVerificationReport(
             citation_validation=citation_validation,

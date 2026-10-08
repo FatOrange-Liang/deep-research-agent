@@ -1,5 +1,3 @@
-import pytest
-
 from deepresearch.research.reranker import (
     MultilingualEvidenceReranker,
     RerankedPassage,
@@ -13,7 +11,16 @@ def test_reranked_passage():
     )
 
     assert row.index == 2
-    assert row.score == pytest.approx(0.9)
+    assert row.score == 0.9
+
+
+def test_reranker_is_lazy_before_first_score():
+    reranker = MultilingualEvidenceReranker(
+        device="cpu",
+    )
+
+    assert reranker.is_loaded is False
+    assert reranker.device == "cpu"
 
 
 def test_rerank_uses_scores_without_real_model():
